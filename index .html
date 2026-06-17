@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravedad, Inercia, Energía — Teoría del Campo Intangible</title>
+    
+    <!-- MathJax -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6965;
+            --accent: #c9a227;
+            --accent-dim: #8a7020;
+            --accent-glow: rgba(201, 162, 39, 0.15);
+            --accent-blue: #4a9c9c;
+            --accent-green: #4a9c6d;
+            --border: #2a2a35;
+            --serif: 'Crimson Pro', Georgia, serif;
+            --sans: 'Source Sans 3', -apple-system, sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 18px;
+        }
+
+        body {
+            font-family: var(--serif);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+
+        /* === LAYOUT === */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1.25rem 4rem;
+            }
+            html {
+                font-size: 16px;
+            }
+        }
+
+        /* === HEADER === */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-eyebrow {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        /* === PRÓLOGO === */
+        .prologue {
+            background: linear-gradient(135deg, var(--accent-glow), transparent);
+            border-left: 3px solid var(--accent);
+            padding: 2rem 2.5rem;
+            margin: 3rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .prologue p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .prologue p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* === SECTIONS === */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .part-header {
+            text-align: center;
+            margin: 5rem 0 3rem;
+            padding: 2.5rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .part-number {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .part-title {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        h2 .section-number {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 2.5rem 0 1rem;
+            color: var(--accent);
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        /* === EQUATIONS === */
+        .equation {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+            overflow-x: auto;
+        }
+
+        .equation-label {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--accent-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        /* === HIGHLIGHT BOXES === */
+        .highlight {
+            background: linear-gradient(135deg, var(--accent-glow), transparent);
+            border: 1px solid var(--accent-dim);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .highlight-title {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .key-result {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-green);
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 6px;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .key-result::before {
+            content: "✓";
+            color: var(--accent-green);
+            font-weight: bold;
+            position: absolute;
+            left: 1.25rem;
+            top: 1.25rem;
+        }
+
+        /* === ANALOGY BOXES === */
+        .analogy {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.75rem 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .analogy-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .analogy-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            margin-bottom: 0.75rem;
+        }
+
+        .analogy p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* === LISTS === */
+        ul, ol {
+            margin: 1.25rem 0;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.6rem;
+        }
+
+        li::marker {
+            color: var(--accent);
+        }
+
+        /* === TABLES === */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: var(--bg-secondary);
+        }
+
+        /* === BLOCKQUOTE === */
+        blockquote {
+            border-left: 3px solid var(--accent-dim);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        /* === DIVIDERS === */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 3rem 0;
+        }
+
+        .divider-ornament {
+            text-align: center;
+            margin: 3rem 0;
+            color: var(--accent-dim);
+            font-size: 1.5rem;
+            letter-spacing: 0.5em;
+        }
+
+        /* === FOOTER === */
+        .footer {
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-author {
+            font-family: var(--sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .footer-date {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* === NAVIGATION === */
+        .nav-toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin: 3rem 0;
+        }
+
+        .nav-toc-title {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .nav-toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            columns: 2;
+            column-gap: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .nav-toc ul {
+                columns: 1;
+            }
+        }
+
+        .nav-toc li {
+            margin-bottom: 0.4rem;
+        }
+
+        .nav-toc a {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-toc a:hover {
+            color: var(--accent);
+        }
+
+        /* === SPECIAL ELEMENTS === */
+        .opening-question {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            text-align: center;
+            margin: 3rem 0;
+            padding: 0 2rem;
+        }
+
+        .pull-quote {
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--accent);
+            text-align: center;
+            margin: 3rem 2rem;
+            line-height: 1.6;
+        }
+
+        .conclusion-box {
+            background: linear-gradient(135deg, rgba(74, 156, 109, 0.1), transparent);
+            border: 1px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .conclusion-box h3 {
+            color: var(--accent-green);
+            margin-top: 0;
+        }
+
+        /* === PROGRESS INDICATOR === */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--bg-tertiary);
+            z-index: 100;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-blue));
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* === BACK TO TOP === */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#top" class="back-to-top" id="backToTop">↑</a>
+
+    <div class="container" id="top">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-eyebrow">Teoría del Campo Intangible</div>
+            <h1>Gravedad, Inercia, Energía</h1>
+            <p class="header-subtitle">Tres nombres para una sola cosa</p>
+        </header>
+
+        <!-- Table of Contents -->
+        <nav class="nav-toc">
+            <div class="nav-toc-title">Contenido</div>
+            <ul>
+                <li><a href="#prologo">Prólogo: El misterio</a></li>
+                <li><a href="#parte1">I. El Medio</a></li>
+                <li><a href="#parte2">II. La Energía</a></li>
+                <li><a href="#parte3">III. La Inercia</a></li>
+                <li><a href="#parte4">IV. La Gravedad</a></li>
+                <li><a href="#parte5">V. El Rol de c</a></li>
+                <li><a href="#parte6">VI. Unificación</a></li>
+                <li><a href="#parte7">VII. Velocidades Altas</a></li>
+                <li><a href="#parte8">VIII. Intuiciones</a></li>
+                <li><a href="#parte9">IX. Verificaciones</a></li>
+                <li><a href="#epilogo">Epílogo</a></li>
+            </ul>
+        </nav>
+
+        <!-- Prólogo -->
+        <section id="prologo">
+            <div class="part-header">
+                <div class="part-number">Prólogo</div>
+                <div class="part-title">El misterio de las tres constantes</div>
+            </div>
+
+            <p>Hay algo extraño en la física que rara vez se discute en las aulas.</p>
+
+            <p>Tenemos tres conceptos que aprendemos como cosas separadas: la <strong>masa gravitacional</strong> (cuánto te atrae la Tierra), la <strong>masa inercial</strong> (cuánto te resistes a acelerar), y la <strong>energía en reposo</strong> (cuánta energía "contiene" tu cuerpo según E = mc²). Son tres ideas distintas, con orígenes históricos diferentes, medidas de formas diferentes.</p>
+
+            <p>Y sin embargo, son exactamente iguales.</p>
+
+            <p>No aproximadamente iguales. No "iguales dentro del error experimental". <em>Exactamente</em> iguales, hasta donde hemos podido medir — y hemos medido con precisión de una parte en diez billones.</p>
+
+            <p class="opening-question">¿Por qué?</p>
+
+            <p>Einstein tomó esta coincidencia y la elevó a principio: el Principio de Equivalencia. La masa inercial <em>es</em> la masa gravitacional, por definición, porque no hay experimento local que pueda distinguir aceleración de gravedad. Brillante. Pero es una descripción, no una explicación. Es decir: "son iguales porque las tratamos como iguales". No dice <em>por qué</em> deberían serlo.</p>
+
+            <p>Newton, más honesto quizás, simplemente aceptó el misterio. En los <em>Principia</em> escribió que la proporcionalidad entre masa inercial y gravitacional era un hecho experimental. Lo verificó con péndulos de diferentes materiales. Funcionaba. No intentó explicarlo.</p>
+
+            <p>Y la energía en reposo E = mc² llegó dos siglos después, como consecuencia de los postulados de la relatividad especial. Otra cosa que simplemente <em>es</em>, derivada de axiomas más abstractos pero igualmente inexplicados.</p>
+
+            <div class="highlight">
+                <p style="margin-bottom: 0;">Tres siglos de física. Tres conceptos fundamentales. Una coincidencia perfecta sin explicación.</p>
+            </div>
+
+            <div class="divider-ornament">· · ·</div>
+
+            <p>Este texto propone que la coincidencia no es coincidencia.</p>
+
+            <p>Propone que gravedad, inercia y energía son tres manifestaciones del mismo fenómeno físico subyacente. No porque lo postulemos así, sino porque emergen de una sola causa mecánica cuando miras la materia de cierta manera.</p>
+
+            <p>Esa manera es la <strong>Teoría del Campo Intangible</strong>.</p>
+        </section>
+
+        <!-- Parte I: El Medio -->
+        <section id="parte1">
+            <div class="part-header">
+                <div class="part-number">Parte I</div>
+                <div class="part-title">El Medio</div>
+            </div>
+
+            <h2><span class="section-number">1.1</span>El espacio lleno</h2>
+
+            <p>Empecemos con una imagen.</p>
+
+            <p>Imagina que el espacio — lo que llamamos "vacío" — no está vacío en absoluto. Está lleno de algo. Un medio compuesto por partículas diminutas, que vamos a llamar <strong>partículas I</strong> (de "Intangible", porque no las tocamos directamente).</p>
+
+            <p>Estas partículas I tienen una propiedad crucial: <em>se repelen entre sí</em>. Cada partícula I empuja a sus vecinas, y sus vecinas empujan de vuelta. El resultado es un equilibrio de presiones: una densidad uniforme ρ₀ en todo el espacio, mantenida por la repulsión mutua.</p>
+
+            <div class="analogy">
+                <div class="analogy-label">💡 Analogía</div>
+                <p>Si estudiaste mecánica de fluidos, esto te resultará familiar. Es como un gas en equilibrio, donde la presión interna balancea cualquier tendencia a colapsar o expandirse. La diferencia es que este "gas" llena todo el universo y sus partículas no son moléculas de nitrógeno o helio — son algo más fundamental, algo que constituye el tejido mismo del espacio.</p>
+            </div>
+
+            <p>Ahora, una segunda propiedad: cuando perturbas este medio — si comprimes una región o creas una onda — esa perturbación viaja. No instantáneamente, sino a una velocidad finita característica del medio. Esa velocidad es <strong>c</strong>.</p>
+
+            <p>Sí, la velocidad de la luz.</p>
+
+            <p>En TCI, c no es "la velocidad de la luz" como categoría especial. Es la velocidad de propagación de cualquier perturbación en el medio I. La luz resulta ser una de esas perturbaciones. Pero c es más fundamental que la luz — es una propiedad del espacio mismo.</p>
+
+            <h2><span class="section-number">1.2</span>El hueco</h2>
+
+            <p>Ahora imagina que hay algo más en este medio. Algo que repele a las partículas I. Algo que las empuja hacia afuera, creando una región de menor densidad a su alrededor.</p>
+
+            <p>Ese "algo" es la materia. Lo que llamamos partículas materiales — protones, electrones, átomos, planetas, tú — son, en esta imagen, regiones donde el medio I ha sido desplazado. <strong>Huecos</strong>. Burbujas. Zonas de baja densidad en un mar de alta densidad.</p>
+
+            <p>La analogía más cercana que conoces probablemente sea una burbuja de aire en agua. El aire repele el agua (bueno, más precisamente, el agua se excluye de donde está el aire por diferencia de densidad y tensión superficial, pero el efecto es similar). La burbuja es un hueco en el medio acuoso.</p>
+
+            <p>Pero hay una diferencia importante. Una burbuja en agua tiene una interfaz definida — puedes señalar exactamente dónde termina el aire y empieza el agua. El hueco en el medio I no es así. El "borde" de una partícula material no es una superficie abrupta. Es un <strong>gradiente suave</strong>: la densidad del medio I aumenta gradualmente desde casi cero en el centro del hueco hasta el valor de equilibrio ρ₀ lejos de la partícula.</p>
+
+            <div class="equation">
+                <span class="equation-label">Perfil de densidad</span>
+                $$\rho_I(r) = \rho_0 \cdot e^{-r_0/r}$$
+            </div>
+
+            <p>donde r₀ es un radio característico que depende de qué tan fuertemente esa partícula repele al medio.</p>
+
+            <p>Esta fórmula tiene propiedades elegantes:</p>
+            <ul>
+                <li>Cuando r → 0 (en el centro del hueco): ρ_I → 0. No hay medio I ahí.</li>
+                <li>Cuando r → ∞ (lejos de la partícula): ρ_I → ρ₀. El medio vuelve a su densidad de equilibrio.</li>
+                <li>Cuando r = r₀: ρ_I = ρ₀/e ≈ 0.37ρ₀. Este es el "borde" del hueco.</li>
+            </ul>
+
+            <h2><span class="section-number">1.3</span>Por qué esto importa</h2>
+
+            <p>Hasta aquí, tenemos una imagen: materia como huecos en un medio. Parece una curiosidad conceptual, quizás una forma alternativa de pensar el espacio. Pero ahora viene lo importante.</p>
+
+            <p>Este medio no es pasivo. Tiene propiedades físicas reales:</p>
+            <ul>
+                <li>Tiene densidad (ρ₀)</li>
+                <li>Tiene presión (porque sus partículas se repelen)</li>
+                <li>Las perturbaciones viajan a velocidad c</li>
+                <li>Opone resistencia cuando intentas mover o crear un hueco</li>
+            </ul>
+
+            <p>Y estas propiedades tienen consecuencias. Consecuencias que vamos a explorar una por una.</p>
+        </section>
+
+        <!-- Parte II: La Energía -->
+        <section id="parte2">
+            <div class="part-header">
+                <div class="part-number">Parte II</div>
+                <div class="part-title">La Energía</div>
+            </div>
+
+            <h2><span class="section-number">2.1</span>El costo de existir</h2>
+
+            <p>Imagina que quieres crear un hueco en el medio I. Desde cero. Donde antes había medio homogéneo, ahora quieres que haya un hueco esférico de radio r₀.</p>
+
+            <p>¿Qué necesitas hacer?</p>
+
+            <p>Necesitas empujar las partículas I hacia afuera. Moverlas de donde estaban a regiones más alejadas. Pero el medio I tiene presión — las partículas I están siendo empujadas hacia adentro por sus vecinas. Para desplazarlas, tienes que <strong>trabajar contra esa presión</strong>.</p>
+
+            <p>Esto es termodinámica elemental. Trabajo = Presión × Cambio de Volumen. Si quieres crear una cavidad de volumen V en un medio con presión P, necesitas entregar una energía W = PV.</p>
+
+            <p>Ahora, ¿cuál es la presión del medio I?</p>
+
+            <p>Aquí entra una relación que quizás recuerdes de acústica o mecánica de fluidos. Para un medio elástico, la velocidad del sonido está relacionada con la presión y la densidad:</p>
+
+            <div class="equation">
+                <span class="equation-label">Ecuación de estado</span>
+                $$c = \sqrt{\frac{P}{\rho}} \quad \Rightarrow \quad P = \rho c^2$$
+            </div>
+
+            <p>Esta es la ecuación de estado del medio I. La presión es la densidad multiplicada por el cuadrado de la velocidad de propagación.</p>
+
+            <p>Entonces, la energía necesaria para crear un hueco de volumen V es:</p>
+
+            <div class="equation">
+                $$E = P \cdot V = \rho_0 c^2 \cdot V$$
+            </div>
+
+            <h2><span class="section-number">2.2</span>El hueco tiene masa</h2>
+
+            <p>Pero espera. El hueco no es simplemente un volumen vacío. Es una región donde <em>falta</em> medio I. Si el medio I tiene densidad ρ₀ y creamos un hueco efectivo de volumen V, la "masa faltante" — la masa de medio I que ya no está ahí — es:</p>
+
+            <div class="equation">
+                $$m = \rho_0 \cdot V$$
+            </div>
+
+            <p>Sustituyendo V = m/ρ₀ en la expresión de la energía:</p>
+
+            <div class="equation">
+                <span class="equation-label">Resultado</span>
+                $$E = \rho_0 c^2 \cdot \frac{m}{\rho_0} = mc^2$$
+            </div>
+
+            <p class="pull-quote">Ahí está. E = mc².</p>
+
+            <p>No como postulado. No como consecuencia de axiomas abstractos sobre geometría del espaciotiempo. Como termodinámica básica aplicada a un medio con presión.</p>
+
+            <div class="key-result">
+                La energía contenida en un trozo de materia es exactamente la energía que costó crear el hueco que esa materia representa en el medio I.
+            </div>
+
+            <h2><span class="section-number">2.3</span>Por qué esto es diferente</h2>
+
+            <p>En física convencional, E = mc² se deriva de la relatividad especial. Partes de dos postulados (las leyes de la física son iguales en todos los sistemas inerciales; la velocidad de la luz es constante) y, tras un desarrollo matemático elegante, llegas a que la energía y la masa están relacionadas por c².</p>
+
+            <p>Funciona. Da la respuesta correcta. Pero no te dice <em>qué significa</em> que la masa sea energía. Es una equivalencia formal sin mecanismo.</p>
+
+            <p>En TCI, el mecanismo está claro: la masa es un hueco, y el hueco almacena energía porque el medio tiene presión. c² aparece porque es el cuadrado de la velocidad de propagación del medio — una propiedad física real, no una constante abstracta.</p>
+
+            <h2><span class="section-number">2.4</span>El gradiente como reservorio</h2>
+
+            <p>Hay una forma más visual de entender esto.</p>
+
+            <p>El hueco no termina abruptamente. Tiene un gradiente de densidad: la densidad del medio I aumenta gradualmente desde el centro hacia afuera. Este gradiente representa <strong>energía potencial almacenada</strong>.</p>
+
+            <div class="analogy">
+                <div class="analogy-label">💡 Analogía</div>
+                <p>Piensa en un pozo en la arena de una playa. Los granos de arena en las paredes del pozo están "estirados" respecto a su posición de equilibrio — si soltaras todo, la arena fluiría hacia adentro y llenaría el pozo. La configuración "pozo" tiene más energía que la configuración "playa plana".</p>
+            </div>
+
+            <p>Lo mismo pasa con el hueco en el medio I. Las partículas I cerca del hueco están más "estiradas" — a menor densidad, mayor separación entre partículas, mayor energía potencial de repulsión almacenada. El gradiente de densidad <em>es</em> un reservorio de energía.</p>
+
+            <p>Y la cantidad total de energía almacenada en ese gradiente es exactamente mc².</p>
+        </section>
+
+        <!-- Parte III: La Inercia -->
+        <section id="parte3">
+            <div class="part-header">
+                <div class="part-number">Parte III</div>
+                <div class="part-title">La Inercia</div>
+            </div>
+
+            <h2><span class="section-number">3.1</span>El misterio original</h2>
+
+            <p>Dejemos la energía por un momento y volvamos a Newton.</p>
+
+            <p><em>¿Por qué los objetos resisten el cambio de movimiento?</em></p>
+
+            <p>Es una pregunta tan básica que parece tonta. Los objetos resisten porque tienen masa, y la masa es eso: resistencia a la aceleración. F = ma. Fin de la historia.</p>
+
+            <p>Pero esto es circular. Es como decir "los objetos caen porque tienen peso, y el peso es la tendencia a caer". No explica nada. Solo le pone nombre al fenómeno.</p>
+
+            <p>Newton lo sabía. En los Principia, distingue cuidadosamente entre la <em>cantidad de materia</em> (cuánto "stuff" hay) y la <em>inercia</em> (la resistencia al cambio). Y nunca explica por qué deberían ser proporcionales. Simplemente observa que lo son.</p>
+
+            <p>Mach, dos siglos después, propuso que la inercia surge de la interacción con toda la materia del universo — los famosos "estrellas distantes" que de alguna manera te anclan y resisten tu aceleración. Es una idea fascinante, pero nunca se concretó en un mecanismo físico preciso.</p>
+
+            <h2><span class="section-number">3.2</span>Masa añadida</h2>
+
+            <p>Aquí es donde tu formación en mecánica de fluidos va a ayudar.</p>
+
+            <p>Imagina una esfera moviéndose a través de un fluido. Cuando la empujas para acelerarla, ¿sientes solo la resistencia de la esfera misma? No. Sientes algo más. El fluido alrededor de la esfera también tiene que moverse — tiene que fluir alrededor de ella, acomodarse a su nueva posición. Y mover ese fluido cuesta energía.</p>
+
+            <p>Este efecto se llama <strong>"masa añadida"</strong> o "masa virtual" en hidrodinámica. La esfera se comporta como si tuviera más masa de la que realmente tiene, porque al acelerarla también estás acelerando el fluido circundante.</p>
+
+            <div class="highlight">
+                <p style="margin-bottom: 0;">Para una esfera en un fluido incompresible, la masa añadida es exactamente la mitad de la masa del fluido desplazado. Pero eso es en el caso de un fluido ordinario. ¿Qué pasa si el "fluido" es el medio I?</p>
+            </div>
+
+            <h2><span class="section-number">3.3</span>El hueco que se mueve</h2>
+
+            <p>Recuerda: la partícula material no está <em>en</em> el medio I. La partícula material <em>es</em> un hueco en el medio I.</p>
+
+            <p>Cuando el hueco se mueve, el medio circundante debe reorganizarse. El hueco se desplaza de un lugar a otro, y eso significa que las partículas I deben fluir de delante del hueco hacia detrás. El medio debe acomodarse continuamente a la nueva posición del hueco.</p>
+
+            <p>Ahora, si el hueco se mueve a velocidad constante, este flujo puede establecerse suavemente. Las partículas I fluyen alrededor, el sistema está en equilibrio dinámico, no hay resistencia neta.</p>
+
+            <p>Pero si intentas <strong>acelerar</strong> el hueco, la historia cambia.</p>
+
+            <p>El medio I no puede reorganizarse instantáneamente. Las perturbaciones — las señales de que "el hueco cambió de velocidad" — se propagan a velocidad c. Cuando aceleras el hueco, estás pidiendo que el medio se reorganice más rápido de lo que la información puede viajar.</p>
+
+            <p>El resultado es una resistencia. Una fuerza que se opone a la aceleración. Esta resistencia es la inercia.</p>
+
+            <h2><span class="section-number">3.4</span>La inercia como resistencia del medio</h2>
+
+            <p>Piénsalo así:</p>
+
+            <p>Cuando empujas una partícula para acelerarla, no estás empujando solo la partícula. Estás empujando contra el medio I que debe reorganizarse. Y ese medio tiene "rigidez" — una capacidad finita de respuesta determinada por su velocidad de propagación c.</p>
+
+            <p>Cuanto más rápido intentas acelerar, más resistencia encuentras. No porque la partícula "no quiera moverse", sino porque el medio circundante no puede acomodarse lo suficientemente rápido.</p>
+
+            <div class="key-result">
+                La inercia es proporcional a la masa porque ambas miden lo mismo: cuánto medio I está involucrado en la existencia y movimiento de la partícula.
+            </div>
+
+            <h2><span class="section-number">3.5</span>F = ma desde el medio</h2>
+
+            <p>Podemos ser más precisos. El trabajo necesario para acelerar un hueco en el medio I tiene que ser igual a la energía cinética que adquiere. Si el hueco tiene masa m (definida por el déficit de medio I), y lo aceleras a velocidad v, la energía cinética es ½mv².</p>
+
+            <p>Pero esta energía no está solo "en la partícula". Está distribuida en el patrón de flujo del medio I alrededor de ella. El medio almacena energía cuando hay movimiento relativo.</p>
+
+            <p>La fuerza necesaria para cambiar este estado es F = dp/dt, donde p = mv es el momento. Si m es constante (velocidades bajas), F = ma.</p>
+
+            <p>Newton describió esto perfectamente. TCI explica <em>por qué</em> funciona: porque a es la tasa de cambio de la configuración del medio, y el medio resiste esa configuración con una "rigidez" proporcional a la masa involucrada.</p>
+        </section>
+
+        <!-- Parte IV: La Gravedad -->
+        <section id="parte4">
+            <div class="part-header">
+                <div class="part-number">Parte IV</div>
+                <div class="part-title">La Gravedad</div>
+            </div>
+
+            <h2><span class="section-number">4.1</span>El gradiente de densidad</h2>
+
+            <p>Ahora podemos atacar la gravedad.</p>
+
+            <p>Recuerda el perfil de densidad alrededor de un hueco: lejos de la partícula, la densidad es ρ₀. Cerca, la densidad es menor. Hay un gradiente.</p>
+
+            <p>Ahora imagina una segunda partícula — otro hueco — en las cercanías. Esta segunda partícula también repele al medio I. Pero el medio I ya no es uniforme: tiene un gradiente causado por la primera partícula.</p>
+
+            <p>¿Qué siente la segunda partícula?</p>
+
+            <p>Siente que el medio a un lado (hacia la primera partícula) es menos denso, y el medio al otro lado (alejándose) es más denso. La presión del medio I es menor hacia la primera partícula y mayor en la dirección opuesta.</p>
+
+            <p>Este desbalance de presiones empuja a la segunda partícula hacia la primera.</p>
+
+            <p class="pull-quote">Eso es la gravedad.</p>
+
+            <h2><span class="section-number">4.2</span>Flotabilidad invertida</h2>
+
+            <div class="analogy">
+                <div class="analogy-label">💡 Flotabilidad de Arquímedes... al revés</div>
+                <p>Un objeto en un fluido con gradiente de densidad experimenta una fuerza hacia la región de menor densidad (flotabilidad normal: los objetos flotan hacia arriba, donde el fluido es menos denso). Pero un <em>hueco</em> en un fluido experimenta lo contrario: es empujado hacia donde hay menos fluido — hacia otros huecos.</p>
+            </div>
+
+            <p>Los huecos en el medio I se "atraen" no porque haya una fuerza de atracción entre ellos, sino porque el medio los empuja juntos. Es un efecto de presión diferencial, no una acción a distancia misteriosa.</p>
+
+            <h2><span class="section-number">4.3</span>La ley del inverso del cuadrado</h2>
+
+            <p>¿Por qué la gravedad sigue la ley del inverso del cuadrado?</p>
+
+            <p>Porque el gradiente de densidad lo hace.</p>
+
+            <p>El perfil ρ_I(r) = ρ₀ · e^(-r₀/r) se aproxima, para r >> r₀, a:</p>
+
+            <div class="equation">
+                $$\rho_I(r) \approx \rho_0 \left(1 - \frac{r_0}{r}\right)$$
+            </div>
+
+            <p>El gradiente de densidad es:</p>
+
+            <div class="equation">
+                $$\frac{d\rho_I}{dr} \approx \rho_0 \cdot \frac{r_0}{r^2}$$
+            </div>
+
+            <p>Esta variación como 1/r² produce una fuerza que escala como 1/r². La geometría esférica hace el resto: la "influencia" de un hueco se diluye sobre esferas de área creciente (4πr²), resultando en la ley de Newton.</p>
+
+            <h2><span class="section-number">4.4</span>La equivalencia explicada</h2>
+
+            <p>Ahora llegamos al punto crucial.</p>
+
+            <p><em>¿Por qué la masa gravitacional es igual a la masa inercial?</em></p>
+
+            <p><strong>Porque ambas son el mismo hueco.</strong></p>
+
+            <p>La masa inercial mide cuánto medio I debe reorganizarse cuando la partícula acelera. La masa gravitacional mide cuánto gradiente de densidad crea la partícula en el medio I.</p>
+
+            <p>Pero la cantidad de medio I desplazado es la misma en ambos casos. Es el tamaño del hueco. Es la masa.</p>
+
+            <div class="conclusion-box">
+                <h3>La unificación</h3>
+                <p>No hay dos propiedades separadas que "coinciden" misteriosamente. Hay una sola propiedad — el déficit de medio I — que se manifiesta de dos formas: como resistencia a la aceleración (inercia) y como fuente de gradiente (gravedad).</p>
+                <p style="margin-bottom: 0;">Y la energía E = mc² también entra en la misma categoría: es la energía almacenada en el gradiente, la energía que costó crear el hueco.</p>
+            </div>
+        </section>
+
+        <!-- Parte V: El Rol de c -->
+        <section id="parte5">
+            <div class="part-header">
+                <div class="part-number">Parte V</div>
+                <div class="part-title">El Rol de c</div>
+            </div>
+
+            <h2><span class="section-number">5.1</span>La velocidad del medio</h2>
+
+            <p>Hemos mencionado c varias veces. Es momento de entender su rol central.</p>
+
+            <p>c no es "la velocidad de la luz" en TCI. Es la <strong>velocidad de propagación de perturbaciones en el medio I</strong>. La luz es una perturbación del medio I (una onda), así que viaja a esa velocidad. Pero c es más fundamental que la luz — es una propiedad del espacio mismo.</p>
+
+            <p>¿Por qué el medio I tiene una velocidad de propagación específica?</p>
+
+            <p>Por la misma razón que cualquier medio tiene velocidad de sonido. Cuando perturbas una región, la perturbación se transmite a regiones vecinas a través de las interacciones entre partículas. La velocidad de transmisión depende de qué tan "rígido" es el medio y qué tan "pesado" es.</p>
+
+            <h2><span class="section-number">5.2</span>Por qué c es límite</h2>
+
+            <p>Ahora podemos entender por qué nada puede viajar más rápido que c.</p>
+
+            <p>Recuerda: la inercia surge porque el medio I debe reorganizarse cuando un hueco acelera. Y el medio I responde a velocidad c.</p>
+
+            <p>Cuando un hueco viaja a velocidad v < c, la información de que "el hueco está aquí" puede propagarse hacia adelante, y el medio puede "prepararse" para acomodarlo. El flujo es suave.</p>
+
+            <p>Cuando v se acerca a c, el hueco está alcanzando a su propia señal. El medio tiene cada vez menos tiempo para reorganizarse. La resistencia aumenta.</p>
+
+            <p>Cuando v = c, el hueco está viajando exactamente a la velocidad de respuesta del medio. No hay forma de que el medio delante del hueco "sepa" que viene. La resistencia se vuelve infinita.</p>
+
+            <div class="analogy">
+                <div class="analogy-label">💡 El cono de Mach</div>
+                <p>Esto es análogo al cono de Mach en aerodinámica. Cuando un avión alcanza la velocidad del sonido, las ondas de presión que emite ya no pueden propagarse delante de él — se acumulan en un frente de choque. La resistencia aumenta drásticamente.</p>
+                <p style="margin-bottom: 0;">En TCI, la "barrera del sonido" del medio I es c. Y no se puede romper.</p>
+            </div>
+
+            <h2><span class="section-number">5.3</span>El factor de Lorentz</h2>
+
+            <p>Todo esto se cuantifica en el famoso factor de Lorentz:</p>
+
+            <div class="equation">
+                $$\gamma = \frac{1}{\sqrt{1 - v^2/c^2}}$$
+            </div>
+
+            <p>En física estándar, γ emerge de la geometría del espaciotiempo de Minkowski. En TCI, γ emerge de la mecánica del medio:</p>
+
+            <ul>
+                <li><strong>Tiempo:</strong> Los procesos internos requieren "comunicación" entre partes del sistema. Cuando el sistema se mueve, las señales deben recorrer trayectorias más largas. El tiempo se dilata por factor γ.</li>
+                <li><strong>Masa:</strong> La resistencia a la aceleración depende de qué tan rápido puede reorganizarse el medio. A velocidades altas, la resistencia aumenta por factor γ.</li>
+                <li><strong>Longitud:</strong> El hueco se contrae en la dirección del movimiento para mantener consistencia con el medio.</li>
+            </ul>
+
+            <h2><span class="section-number">5.4</span>Por qué todos miden c igual</h2>
+
+            <p>Hay un resultado famoso de la relatividad especial: todos los observadores, sin importar su velocidad, miden la misma velocidad de la luz c.</p>
+
+            <p>Esto parece imposible. Si yo viajo a 0.5c hacia un rayo de luz, ¿no debería medir que la luz viene hacia mí a 1.5c?</p>
+
+            <p>En TCI, la respuesta es mecánica.</p>
+
+            <p>Para medir la velocidad de la luz, necesitas medir una distancia y un tiempo. Distancia con una regla, tiempo con un reloj. Pero tu regla y tu reloj son objetos físicos. Son huecos en el medio I. Cuando te mueves respecto al medio:</p>
+
+            <ul>
+                <li>Tu regla se contrae por factor 1/γ</li>
+                <li>Tu reloj se ralentiza por factor γ</li>
+            </ul>
+
+            <p>Cuando calculas velocidad = distancia/tiempo usando TUS instrumentos afectados, los efectos se cancelan exactamente. Siempre mides c.</p>
+
+            <div class="key-result">
+                El medio I existe. Tiene un marco de referencia "absoluto" (el CMB lo revela: ~370 km/s). Pero ese marco es invisible a mediciones locales, porque los instrumentos de medición se transforman junto con lo medido.
+            </div>
+        </section>
+
+        <!-- Parte VI: Unificación -->
+        <section id="parte6">
+            <div class="part-header">
+                <div class="part-number">Parte VI</div>
+                <div class="part-title">Unificación</div>
+            </div>
+
+            <h2><span class="section-number">6.1</span>Un solo parámetro</h2>
+
+            <p>Retrocedamos y miremos el panorama completo.</p>
+
+            <p>En TCI, toda la física que hemos descrito depende de una sola propiedad fundamental: <strong>la densidad del medio I, ρ₀</strong>.</p>
+
+            <ul>
+                <li>La energía en reposo es E = mc² = ρ₀Vc²</li>
+                <li>La inercia es la resistencia del medio (densidad ρ₀) a reorganizarse</li>
+                <li>La gravedad es el efecto del gradiente de densidad sobre otros huecos</li>
+                <li>La velocidad límite c viene de la ecuación de estado P = ρ₀c²</li>
+                <li>La constante gravitacional G escala como c²/ρ₀</li>
+            </ul>
+
+            <p>Todo está conectado a través de ρ₀.</p>
+
+            <h2><span class="section-number">6.2</span>El valor numérico</h2>
+
+            <p>¿Cuánto vale ρ₀?</p>
+
+            <p>En dinámica galáctica, hay una escala de aceleración característica, a₀ ≈ 1.2 × 10⁻¹⁰ m/s², por debajo de la cual las galaxias se comportan de forma anómala. Milgrom identificó esta escala en 1983, pero no pudo explicar qué es.</p>
+
+            <p>En TCI, a₀ emerge naturalmente:</p>
+
+            <div class="equation">
+                $$a_0 = c\sqrt{G\rho_0} \quad \Rightarrow \quad \rho_0 = \frac{a_0^2}{c^2 G} \approx 2.4 \times 10^{-27} \text{ kg/m}^3$$
+            </div>
+
+            <p>Esto es extraordinariamente bajo — aproximadamente un protón por metro cúbico. El "vacío" está casi vacío. Pero no completamente.</p>
+
+            <h2><span class="section-number">6.3</span>La predicción de la energía del vacío</h2>
+
+            <p>La densidad de energía del vacío observada cosmológicamente es aproximadamente 5.6 × 10⁻¹⁰ J/m³.</p>
+
+            <p>Si calculamos la densidad de energía del medio I según TCI:</p>
+
+            <div class="equation">
+                $$\rho_0 c^2 \approx 2.2 \times 10^{-10} \text{ J/m}^3$$
+            </div>
+
+            <p>El acuerdo es de factor 2.6.</p>
+
+            <div class="highlight">
+                <div class="highlight-title">Comparación</div>
+                <p>La física cuántica de campos predice ~10¹¹⁰ J/m³ — un error de 120 órdenes de magnitud, probablemente la peor predicción en la historia de la física.</p>
+                <p style="margin-bottom: 0;"><strong>Un parámetro medido en galaxias (a₀) predice correctamente la energía del vacío a escala cosmológica. Sin ajustes.</strong></p>
+            </div>
+
+            <h2><span class="section-number">6.4</span>La coincidencia cósmica</h2>
+
+            <p>Hay más. La constante de Hubble H₀ describe la expansión del universo. Si calculas cH₀:</p>
+
+            <div class="equation">
+                $$cH_0 \approx 7 \times 10^{-10} \text{ m/s}^2$$
+            </div>
+
+            <p>Compara con a₀ ≈ 1.2 × 10⁻¹⁰ m/s². Son del mismo orden de magnitud.</p>
+
+            <p>¿Por qué una constante galáctica (a₀) debería tener el mismo valor que una constante cosmológica (cH₀)?</p>
+
+            <p>En TCI, ambas emergen del mismo parámetro ρ₀. No es coincidencia. Es la misma física manifestándose a diferentes escalas.</p>
+        </section>
+
+        <!-- Parte VII: Velocidades Altas -->
+        <section id="parte7">
+            <div class="part-header">
+                <div class="part-number">Parte VII</div>
+                <div class="part-title">Gravedad a Velocidades Altas</div>
+            </div>
+
+            <h2><span class="section-number">7.1</span>Newton a bajas velocidades</h2>
+
+            <p>En condiciones normales — baja velocidad, campos gravitacionales débiles — TCI reproduce exactamente la física newtoniana.</p>
+
+            <p>Los huecos se atraen con fuerza F = Gm₁m₂/r². Los objetos aceleran con a = F/m. Las órbitas son elipses. Todo lo que Newton describió sigue siendo válido.</p>
+
+            <p>Esto es importante: TCI no descarta la física clásica. La contiene como caso límite.</p>
+
+            <h2><span class="section-number">7.2</span>Correcciones relativistas</h2>
+
+            <p>Pero cuando las velocidades aumentan o los campos gravitacionales se vuelven intensos, aparecen desviaciones.</p>
+
+            <h3>Deflexión de la luz</h3>
+
+            <p>La luz pasando cerca del Sol se curva. Einstein predijo que la deflexión sería el doble del valor newtoniano, y las observaciones del eclipse de 1919 lo confirmaron.</p>
+
+            <p>En TCI, la luz es una onda en el medio I. Cerca del Sol, hay un gradiente de densidad. Diferentes partes del frente de onda viajan a velocidades ligeramente diferentes. El frente de onda se inclina. La luz se curva.</p>
+
+            <div class="key-result">
+                El cálculo da exactamente 1.75 segundos de arco para luz rasante al Sol — el valor observado.
+            </div>
+
+            <h3>Dilatación gravitacional del tiempo</h3>
+
+            <p>Los relojes corren más lento en campos gravitacionales intensos. Los satélites GPS deben corregir este efecto para dar posiciones precisas.</p>
+
+            <p>En TCI, un reloj en un campo gravitacional está en una región de menor densidad del medio I. Los procesos físicos ocurren a ritmo diferente. El tiempo se dilata.</p>
+
+            <div class="key-result">
+                Los satélites GPS experimentan un efecto neto de +38.5 μs/día, exactamente lo que TCI predice y lo que se observa.
+            </div>
+
+            <h3>Ondas gravitacionales</h3>
+
+            <p>¿Qué son las ondas gravitacionales en TCI?</p>
+
+            <p>Son literalmente lo que el nombre sugiere: ondas en el medio I causadas por masas aceleradas. Cuando dos agujeros negros espiran y se fusionan, los huecos que representan se mueven violentamente, agitando el medio I y creando ondas que se propagan a velocidad c.</p>
+        </section>
+
+        <!-- Parte VIII: Intuiciones -->
+        <section id="parte8">
+            <div class="part-header">
+                <div class="part-number">Parte VIII</div>
+                <div class="part-title">Intuiciones y Analogías</div>
+            </div>
+
+            <h2><span class="section-number">8.1</span>La metáfora del océano</h2>
+
+            <p>Imagina un océano infinito, perfectamente calmo.</p>
+
+            <p>Ahora imagina burbujas en ese océano. No burbujas de aire que flotan hacia arriba — burbujas que están ancladas, que persisten, que son parte de la estructura del sistema.</p>
+
+            <p>Estas burbujas son regiones donde hay menos agua. El agua alrededor de cada burbuja forma un gradiente: menos densa cerca de la burbuja, densidad normal lejos.</p>
+
+            <ul>
+                <li>Cuando dos burbujas están cerca, el agua entre ellas está "estirada". Las burbujas son empujadas una hacia la otra. <strong>Eso es gravedad.</strong></li>
+                <li>Intenta mover una burbuja. El agua tiene que fluir alrededor. Si la mueves rápido, el agua resiste. <strong>Eso es inercia.</strong></li>
+                <li>Las olas viajan a cierta velocidad — la velocidad del sonido en agua. <strong>Eso es c.</strong></li>
+            </ul>
+
+            <p>El océano es el medio I. Las burbujas son la materia.</p>
+
+            <h2><span class="section-number">8.2</span>El éter que no es éter</h2>
+
+            <p>Es importante distinguir TCI del éter clásico del siglo XIX.</p>
+
+            <p>El éter clásico era un medio estático a través del cual la materia se movía. Predecía un "viento de éter" detectable — diferencias en la velocidad de la luz según la dirección. Michelson-Morley no lo detectaron.</p>
+
+            <p>El medio I de TCI es diferente:</p>
+
+            <ol>
+                <li><strong>La materia no se mueve "a través" del medio.</strong> La materia <em>es</em> una perturbación del medio. El hueco y su gradiente se mueven juntos. No hay "viento".</li>
+                <li><strong>No hay marco absoluto detectable localmente.</strong> Los instrumentos de medición también son huecos, y se transforman junto con lo medido.</li>
+                <li><strong>TCI produce los efectos relativistas.</strong> El éter contradecía la relatividad. El medio I la reproduce.</li>
+            </ol>
+
+            <p>No es resurrección del éter. Es una propuesta diferente que evita sus problemas mientras proporciona el sustrato físico que la relatividad dejó abstracto.</p>
+        </section>
+
+        <!-- Parte IX: Verificaciones -->
+        <section id="parte9">
+            <div class="part-header">
+                <div class="part-number">Parte IX</div>
+                <div class="part-title">Verificaciones y Preguntas</div>
+            </div>
+
+            <h2><span class="section-number">9.1</span>Lo que funciona</h2>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fenómeno</th>
+                            <th>Predicción TCI</th>
+                            <th>Observado</th>
+                            <th>Acuerdo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>E = mc²</td>
+                            <td>Emerge de termodinámica</td>
+                            <td>Verificado</td>
+                            <td style="color: var(--accent-green);">✓ Exacto</td>
+                        </tr>
+                        <tr>
+                            <td>Factor de Lorentz</td>
+                            <td>Emerge de geometría</td>
+                            <td>Verificado</td>
+                            <td style="color: var(--accent-green);">✓ Exacto</td>
+                        </tr>
+                        <tr>
+                            <td>Deflexión de luz</td>
+                            <td>1.75"</td>
+                            <td>1.75"</td>
+                            <td style="color: var(--accent-green);">✓ Exacto</td>
+                        </tr>
+                        <tr>
+                            <td>Dilatación GPS</td>
+                            <td>+38.5 μs/día</td>
+                            <td>+38.5 μs/día</td>
+                            <td style="color: var(--accent-green);">✓ Exacto</td>
+                        </tr>
+                        <tr>
+                            <td>Energía del vacío</td>
+                            <td>2.2 × 10⁻¹⁰ J/m³</td>
+                            <td>5.6 × 10⁻¹⁰ J/m³</td>
+                            <td style="color: var(--accent-green);">Factor 2.6</td>
+                        </tr>
+                        <tr>
+                            <td>Coincidencia a₀ ≈ cH₀</td>
+                            <td>Explicación natural</td>
+                            <td>Observada</td>
+                            <td style="color: var(--accent-green);">✓</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2><span class="section-number">9.2</span>Lo pendiente</h2>
+
+            <ul>
+                <li><strong>Precesión de Mercurio:</strong> ¿TCI reproduce los 43"/siglo exactamente?</li>
+                <li><strong>Ondas gravitacionales:</strong> ¿Los detalles de LIGO son consistentes?</li>
+                <li><strong>Estructura nuclear:</strong> ¿Cómo emergen protones y neutrones?</li>
+            </ul>
+
+            <h2><span class="section-number">9.3</span>Preguntas abiertas</h2>
+
+            <ul>
+                <li>¿De qué están hechas las partículas I?</li>
+                <li>¿Por qué ρ₀ tiene el valor que tiene?</li>
+                <li>¿Cómo se conecta TCI con la mecánica cuántica?</li>
+            </ul>
+        </section>
+
+        <!-- Epílogo -->
+        <section id="epilogo">
+            <div class="part-header">
+                <div class="part-number">Epílogo</div>
+                <div class="part-title">Una Sola Cosa</div>
+            </div>
+
+            <p>Volvamos al principio.</p>
+
+            <p>Gravedad, inercia, energía. Tres conceptos que parecen diferentes. Tres manifestaciones que resultan ser una.</p>
+
+            <p>No porque lo postulemos así. Porque cuando miras la materia como huecos en un medio, las tres emergen automáticamente de la misma causa.</p>
+
+            <ul>
+                <li><strong>La energía</strong> es el costo de crear el hueco.</li>
+                <li><strong>La inercia</strong> es la resistencia del medio a que el hueco se mueva.</li>
+                <li><strong>La gravedad</strong> es la presión diferencial entre huecos.</li>
+            </ul>
+
+            <p>Tres nombres para una sola cosa: <strong>el acoplamiento entre la materia y el medio que llena el espacio</strong>.</p>
+
+            <p>Y ese acoplamiento depende de un solo número: ρ₀, la densidad del medio I. Un protón por metro cúbico, más o menos. Casi nada. Y sin embargo, suficiente para sostener la masa de todas las estrellas, la inercia de todos los planetas, la energía de todos los átomos.</p>
+
+            <div class="conclusion-box">
+                <h3>El mensaje central</h3>
+                <p>El espacio no está vacío. Está lleno de algo que no tocamos pero que toca todo.</p>
+                <p style="margin-bottom: 0;">Y si esta imagen es correcta, entonces la física no es un conjunto de leyes separadas que "coinciden" misteriosamente. Es un sistema coherente donde todo está conectado a través de un sustrato común.</p>
+            </div>
+
+            <p class="pull-quote">Gravedad, inercia, energía.<br>Una sola cosa.</p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-author">Nicolás Irigoyen</p>
+            <p class="footer-date">Diciembre 2025</p>
+            <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-muted);">
+                Teoría del Campo Intangible — Documento Conceptual<br>
+                Las derivaciones formales se encuentran en el documento técnico completo.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+
+            // Back to top button
+            const backToTop = document.getElementById('backToTop');
+            if (winScroll > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
