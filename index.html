@@ -1043,6 +1043,16 @@
                 Con β = 4 fijado por el eclipse, TCI reproduce la deflexión de 1.75 segundos de arco y además predice — sin ningún parámetro adicional — el retardo de Shapiro (~240 μs en señales de radar que rozan el Sol, confirmado desde 1968) y que la luz de radio y la visible se curvan exactamente igual (confirmado por VLBI). Un parámetro, tres observaciones. La derivación completa está en el documento técnico, sección 7.4.
             </div>
 
+            <h3>El perihelio de Mercurio</h3>
+
+            <p>La órbita de Mercurio no es una elipse fija: su punto más cercano al Sol (el perihelio) avanza 43 segundos de arco por siglo más de lo que explican los demás planetas. Fue el primer gran triunfo de Einstein — y es la prueba de fuego de segundo orden para cualquier teoría de la gravedad.</p>
+
+            <p>Acá TCI vivió su momento más dramático. La fórmula original de la teoría daba 50 segundos de arco — un 17% de más, suficiente para matarla. La salvó su propio principio fundamental: si la masa <em>es</em> energía (la triple equivalencia), entonces el acoplamiento con el medio debe usar la energía local en cada punto del pozo gravitacional, no la masa medida "desde lejos". Aplicando eso con consistencia, el acoplamiento se vuelve exponencial y el resultado da exactamente el valor observado. De paso, Mercurio nos enseñó algo sobre el medio: su no linealidad vive en la <em>inercia</em>, no en la elasticidad.</p>
+
+            <div class="key-result">
+                TCI reproduce los 42.98 segundos de arco por siglo de Mercurio — verificado integrando la órbita numéricamente. Y con los parámetros ya fijados quedan gratis dos tests más: el efecto Nordtvedt nulo (confirmado midiendo la distancia a la Luna con láser) y la precesión geodética. Derivación completa en el documento técnico, sección 7.5.
+            </div>
+
             <h3>Dilatación gravitacional del tiempo</h3>
 
             <p>Los relojes corren más lento en campos gravitacionales intensos. Los satélites GPS deben corregir este efecto para dar posiciones precisas.</p>
@@ -1058,6 +1068,8 @@
             <p>¿Qué son las ondas gravitacionales en TCI?</p>
 
             <p>Son literalmente lo que el nombre sugiere: ondas en el medio I causadas por masas aceleradas. Cuando dos agujeros negros espiran y se fusionan, los huecos que representan se mueven violentamente, agitando el medio I y creando ondas que se propagan a velocidad c.</p>
+
+            <p>Y acá va la honestidad de rigor: este es el frente más riesgoso de la teoría. Las ondas observadas por LIGO tienen una forma particular (tensorial, de dos polarizaciones) que un medio líquido no puede producir — un líquido solo transmite ondas de compresión. Para reproducir lo observado, el medio I tiene que ser un <strong>sólido elástico</strong>, capaz de transmitir ondas de corte transversales. Demostrar que esas ondas de corte vibran con el patrón exacto que LIGO escucha es, hoy, la pregunta abierta decisiva de TCI.</p>
         </section>
 
         <!-- Parte VIII: Intuiciones -->
@@ -1157,6 +1169,24 @@
                             <td style="color: var(--accent-green);">✓ Exacto</td>
                         </tr>
                         <tr>
+                            <td>Perihelio de Mercurio</td>
+                            <td>42.98"/siglo (fija dónde vive la no linealidad)</td>
+                            <td>42.98 ± 0.04"/siglo</td>
+                            <td style="color: var(--accent-green);">✓ Calibrada</td>
+                        </tr>
+                        <tr>
+                            <td>Efecto Nordtvedt</td>
+                            <td>0 (sin parámetros libres)</td>
+                            <td>(−0.2 ± 1.1)×10⁻⁴</td>
+                            <td style="color: var(--accent-green);">✓ Predicho</td>
+                        </tr>
+                        <tr>
+                            <td>Precesión geodética</td>
+                            <td>Valor RG (sin parámetros libres)</td>
+                            <td>Confirmada (LLR, Gravity Probe B)</td>
+                            <td style="color: var(--accent-green);">✓ Predicho</td>
+                        </tr>
+                        <tr>
                             <td>Energía del vacío</td>
                             <td>2.2 × 10⁻¹⁰ J/m³</td>
                             <td>5.6 × 10⁻¹⁰ J/m³</td>
@@ -1172,15 +1202,27 @@
                 </table>
             </div>
 
-            <h2><span class="section-number">9.2</span>Lo pendiente</h2>
+            <h2><span class="section-number">9.2</span>Donde TCI se separa de Einstein (y cómo sabremos quién tiene razón)</h2>
+
+            <p>En el sistema solar, TCI y la relatividad general coinciden hasta el segundo orden — por eso pasan exactamente los mismos tests. La primera diferencia física aparece donde la gravedad es extrema: cerca de los agujeros negros. Ahí TCI hace predicciones propias, distintas de las de Einstein, y medibles:</p>
 
             <ul>
-                <li><strong>Precesión de Mercurio:</strong> ¿TCI reproduce los 43"/siglo exactamente?</li>
-                <li><strong>Ondas gravitacionales:</strong> ¿Los detalles de LIGO son consistentes?</li>
+                <li><strong>Sombras 4.6% más grandes.</strong> El círculo oscuro que fotografía el Event Horizon Telescope debería medir un 4.6% más que lo que predice la relatividad general. Las mediciones actuales (M87*, Sagitario A*) tienen ±10% de precisión: TCI está viva. La próxima generación del telescopio (~1%) decide.</li>
+                <li><strong>La campana suena 4.4% más grave.</strong> Cuando dos agujeros negros se fusionan, el resultante vibra como una campana (el "ringdown" que escucha LIGO). TCI predice un tono y un amortiguamiento 4.4% menores que Einstein.</li>
+                <li><strong>No hay horizonte de eventos.</strong> En TCI la materia que cae no cruza un punto de no retorno: se apaga en un corrimiento al rojo que crece sin límite. Negro para el ojo, distinto en la estructura.</li>
+            </ul>
+
+            <p>Lo potente: las dos primeras predicciones están atadas por un único número geométrico — sombra más grande <em>y</em> campana más grave, en proporciones exactamente inversas. Si una se confirma y la otra no, la teoría muere. Así debe pararse una teoría seria frente a la naturaleza.</p>
+
+            <h2><span class="section-number">9.3</span>Lo pendiente</h2>
+
+            <ul>
+                <li><strong>Ondas gravitacionales (la pregunta decisiva):</strong> ¿el patrón de vibración de las ondas de corte del medio sólido coincide con el patrón tensorial que observa LIGO? Este es hoy el mayor riesgo estructural de la teoría, y está declarado como tal.</li>
+                <li><strong>Rotación:</strong> extender la métrica de campo fuerte a agujeros negros rotantes (los reales rotan).</li>
                 <li><strong>Estructura nuclear:</strong> ¿Cómo emergen protones y neutrones?</li>
             </ul>
 
-            <h2><span class="section-number">9.3</span>Preguntas abiertas</h2>
+            <h2><span class="section-number">9.4</span>Preguntas abiertas</h2>
 
             <ul>
                 <li>¿De qué están hechas las partículas I?</li>
@@ -1224,10 +1266,11 @@
         <!-- Footer -->
         <footer class="footer">
             <p class="footer-author">Nicolás Irigoyen</p>
-            <p class="footer-date">Diciembre 2025</p>
+            <p class="footer-date">Diciembre 2025 · actualizado julio 2026</p>
             <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-muted);">
                 Teoría del Campo Intangible — Documento Conceptual<br>
-                Las derivaciones formales se encuentran en el documento técnico completo.
+                Las derivaciones formales se encuentran en el <a href="https://irigoyennicolas1991.github.io/ift-theory/" style="color: inherit;">documento técnico completo</a>.<br>
+                Bitácora de trabajo y scripts de verificación: <a href="https://github.com/IrigoyenNicolas1991/ift-theory/tree/main/notas" style="color: inherit;">carpeta notas/</a>.
             </p>
         </footer>
     </div>
