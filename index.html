@@ -1035,8 +1035,12 @@
 
             <p>En TCI, la luz es una onda en el medio I. Cerca del Sol, hay un gradiente de densidad. Diferentes partes del frente de onda viajan a velocidades ligeramente diferentes. El frente de onda se inclina. La luz se curva.</p>
 
+            <p>Acá hay que ser honestos con un punto fino: la versión más simple del medio (respuesta perfectamente lineal) <strong>no</strong> curva la luz — las perturbaciones viajarían a c en todas partes, sin importar la densidad local. La curvatura aparece cuando el medio responde de forma no lineal: su "rigidez" cambia con la densidad. Ese comportamiento se captura con un solo número nuevo, β, la curvatura de la ecuación de estado.</p>
+
+            <p>El valor β = 4 se calibra con la observación del eclipse de 1919 — igual que la constante G se calibra midiendo en el laboratorio. Lo importante es lo que pasa después: con β ya fijado, la teoría queda sin margen de maniobra.</p>
+
             <div class="key-result">
-                El cálculo da exactamente 1.75 segundos de arco para luz rasante al Sol — el valor observado.
+                Con β = 4 fijado por el eclipse, TCI reproduce la deflexión de 1.75 segundos de arco y además predice — sin ningún parámetro adicional — el retardo de Shapiro (~240 μs en señales de radar que rozan el Sol, confirmado desde 1968) y que la luz de radio y la visible se curvan exactamente igual (confirmado por VLBI). Un parámetro, tres observaciones. La derivación completa está en el documento técnico, sección 7.4.
             </div>
 
             <h3>Dilatación gravitacional del tiempo</h3>
@@ -1130,9 +1134,21 @@
                         </tr>
                         <tr>
                             <td>Deflexión de luz</td>
+                            <td>1.75" (calibra β = 4)</td>
                             <td>1.75"</td>
-                            <td>1.75"</td>
-                            <td style="color: var(--accent-green);">✓ Exacto</td>
+                            <td style="color: var(--accent-green);">✓ Calibrada</td>
+                        </tr>
+                        <tr>
+                            <td>Retardo de Shapiro</td>
+                            <td>~240 μs (sin parámetros libres)</td>
+                            <td>~240 μs</td>
+                            <td style="color: var(--accent-green);">✓ Predicho</td>
+                        </tr>
+                        <tr>
+                            <td>Deflexión igual en radio y óptico</td>
+                            <td>Sí (índice sin dispersión)</td>
+                            <td>Confirmado (VLBI)</td>
+                            <td style="color: var(--accent-green);">✓ Predicho</td>
                         </tr>
                         <tr>
                             <td>Dilatación GPS</td>
