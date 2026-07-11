@@ -329,6 +329,17 @@ en vivo.</figcaption>
 <p>Los instrumentos actuales miden con un margen del diez por ciento: todavía no distinguen. La próxima generación mide al uno por ciento: va a distinguir. La apuesta está sellada, pública, esperando árbitro.</p>
 <p>Así se para una teoría seria frente a la naturaleza: con el cuello afuera.</p>
 <p>¿Y por qué tanta insistencia con los recibos, las confesiones, las apuestas selladas? Porque el próximo capítulo cuenta la parte de esta historia que ningún libro de teorías alternativas cuenta jamás. El día que la naturaleza dijo <strong>no</strong>.</p>
+<figure class="sim-figura">
+<canvas id="sistema" aria-label="Simulación: un sol en el mar; las sondas disparadas se curvan o son capturadas sin gravedad programada"></canvas>
+<figcaption><button class="sim-ctl" id="sim-reset-4">· reiniciar ·</button>
+<strong>Un sol en el mar. Ninguna gravedad programada</strong> — el sol y las sondas solo
+repelen al mar; todo lo demás emerge. Arrastrá y soltá para disparar una sonda: si pasa
+rápido y lejos, su trayectoria <em>se curva</em> al rodear el sol, como la honda espacial de
+las misiones reales; si va lenta o apunta cerca, el mar la captura y cae en espiral — y al
+caer, su huella colapsa y el destello viaja (capítulo 8). Confesión de la casa: acá no hay
+órbitas eternas, porque nuestro mar de bits tiene una pizca de fricción interna que las va
+gastando; el mar perfecto del capítulo 6 no la tendría.</figcaption>
+</figure>
 </section>
 <section class="capitulo" id="cap-10"><h2 class="cap-titulo">10 · El golpe y la salida</h2>
 <p>Este es el capítulo más importante del libro. No porque cuente una victoria — cuenta exactamente lo contrario — sino porque es la razón para tomarse en serio todo lo demás.</p>
@@ -767,6 +778,131 @@ if(la){
   const btn3=document.getElementById("sim-reset-3");
   if(btn3) btn3.addEventListener("click",reset3);
   medir3(); reset3(); ciclo3();
+}
+
+/* ============ el sol en el mar: deflexión y captura (cap 9) ============ */
+/* Un sol (intrusa grande, fija) y sondas que el lector dispara con la
+   gomera. NINGUNA gravedad programada: sol y sondas solo repelen al
+   mar; la curvatura de las trayectorias emerge del desbalance de
+   presión. Verificado en Node (KTsol=400, vacío≈80px): v=3.5 se
+   curva 84° y sigue; v=2.0 se curva 101°; lento o directo → capturado,
+   espirala y cae (el colapso de su huella emite la onda, física cap 8).
+   Órbita eterna imposible acá: el mar de bits disipa (declarado). */
+const ls=document.getElementById("sistema");
+if(ls){
+  const c4=ls.getContext("2d");
+  const H4=380; let W4=0,pts4=[],sondas=[],mira4=null,vivo4=true,sol4={x:0,y:0};
+  const KII4=14, KTSOL=400, KTP=280, MASA4=0.03, MIND4=6;
+  function medir4(){
+    const d=Math.min(devicePixelRatio||1,2);
+    W4=ls.clientWidth; ls.width=W4*d; ls.height=H4*d; c4.setTransform(d,0,0,d,0,0);
+  }
+  function reset4(){
+    pts4=[];
+    const n=Math.min(420,Math.max(240,Math.round(W4*H4/700)));
+    for(let i=0;i<n;i++) pts4.push({x:Math.random()*W4,y:Math.random()*H4,vx:0,vy:0});
+    sondas=[]; sol4={x:W4/2,y:H4/2};
+  }
+  function pos4(e){ const r=ls.getBoundingClientRect(); return {x:e.clientX-r.left,y:e.clientY-r.top}; }
+  ls.addEventListener("pointerdown",e=>{ const m=pos4(e); mira4={x:m.x,y:m.y,cx:m.x,cy:m.y}; });
+  ls.addEventListener("pointermove",e=>{ if(mira4){ const m=pos4(e); mira4.cx=m.x; mira4.cy=m.y; } });
+  ls.addEventListener("pointerleave",()=>{ mira4=null; });
+  ls.addEventListener("pointerup",e=>{
+    if(!mira4) return;
+    const m=pos4(e);
+    const dx=mira4.x-m.x, dy=mira4.y-m.y, tiron=Math.hypot(dx,dy);
+    if(tiron>=12){
+      const v=Math.min(3.6,tiron*0.03);
+      sondas.push({x:mira4.x,y:mira4.y,vx:dx/tiron*v,vy:dy/tiron*v,viva:true,fade:1,tr:[]});
+      if(sondas.length>3) sondas.shift();
+    }
+    mira4=null;
+  });
+  function paso4(){
+    const n=pts4.length;
+    for(let i=0;i<n;i++){
+      const p=pts4[i];
+      for(let j=i+1;j<n;j++){
+        const q=pts4[j];
+        const dx=p.x-q.x, dy=p.y-q.y;
+        let d2=dx*dx+dy*dy; if(d2<MIND4*MIND4) d2=MIND4*MIND4;
+        const fz=KII4/(d2*Math.sqrt(d2));
+        p.vx+=dx*fz; p.vy+=dy*fz; q.vx-=dx*fz; q.vy-=dy*fz;
+      }
+      { const dx=p.x-sol4.x, dy=p.y-sol4.y;
+        let d2=dx*dx+dy*dy; if(d2<MIND4*MIND4) d2=MIND4*MIND4;
+        const fz=KTSOL/(d2*Math.sqrt(d2));
+        p.vx+=dx*fz; p.vy+=dy*fz; }
+      for(const t of sondas){
+        if(!t.viva) continue;
+        const dx=p.x-t.x, dy=p.y-t.y;
+        let d2=dx*dx+dy*dy; if(d2<MIND4*MIND4) d2=MIND4*MIND4;
+        const fz=KTP/(d2*Math.sqrt(d2));
+        p.vx+=dx*fz; p.vy+=dy*fz;
+        t.vx-=dx*fz*MASA4; t.vy-=dy*fz*MASA4;
+      }
+    }
+    for(const p of pts4){
+      p.vx+=(Math.random()-.5)*.02; p.vy+=(Math.random()-.5)*.02;
+      p.vx*=.999; p.vy*=.999; p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0){p.x=0;p.vx*=-.6} if(p.x>W4){p.x=W4;p.vx*=-.6}
+      if(p.y<0){p.y=0;p.vy*=-.6} if(p.y>H4){p.y=H4;p.vy*=-.6}
+    }
+    for(const t of sondas){
+      if(!t.viva){ if(t.fade>0) t.fade-=.02; continue; }
+      t.x+=t.vx; t.y+=t.vy;
+      t.tr.push({x:t.x,y:t.y}); if(t.tr.length>600) t.tr.shift();
+      const r=Math.hypot(t.x-sol4.x,t.y-sol4.y);
+      if(r<26) t.viva=false;                      /* el sol se la comió: su huella colapsa */
+      if(t.x<-40||t.x>W4+40||t.y<-40||t.y>H4+40) t.viva=false, t.fade=0;
+    }
+  }
+  function dibujar4(){
+    c4.clearRect(0,0,W4,H4);
+    for(const p of pts4){
+      const v=Math.hypot(p.vx,p.vy);
+      const g=Math.max(0,Math.min(1,(v-0.3)/0.6));
+      if(g>0){
+        c4.fillStyle=colores.intrusa; c4.globalAlpha=.25+.55*g;
+        c4.beginPath(); c4.arc(p.x,p.y,1.5+1.2*g,0,6.2832); c4.fill();
+        c4.globalAlpha=1;
+      }else{
+        c4.fillStyle=colores.dot;
+        c4.beginPath(); c4.arc(p.x,p.y,1.6,0,6.2832); c4.fill();
+      }
+    }
+    /* el sol */
+    { const g=c4.createRadialGradient(sol4.x,sol4.y,0,sol4.x,sol4.y,34);
+      g.addColorStop(0,colores.intrusa); g.addColorStop(1,"transparent");
+      c4.fillStyle=g; c4.beginPath(); c4.arc(sol4.x,sol4.y,34,0,6.2832); c4.fill();
+      c4.fillStyle=colores.intrusa; c4.beginPath(); c4.arc(sol4.x,sol4.y,9,0,6.2832); c4.fill(); }
+    for(const t of sondas){
+      if(t.tr.length>2){
+        c4.strokeStyle=colores.intrusa; c4.globalAlpha=.4*(t.viva?1:t.fade); c4.lineWidth=1.3;
+        c4.beginPath(); c4.moveTo(t.tr[0].x,t.tr[0].y);
+        for(const s of t.tr) c4.lineTo(s.x,s.y);
+        c4.stroke(); c4.globalAlpha=1;
+      }
+      if(t.viva){
+        c4.fillStyle=colores.intrusa;
+        c4.beginPath(); c4.arc(t.x,t.y,3.6,0,6.2832); c4.fill();
+      }
+    }
+    if(mira4){
+      c4.strokeStyle=colores.intrusa; c4.globalAlpha=.7; c4.lineWidth=1.5;
+      c4.setLineDash([5,5]);
+      c4.beginPath(); c4.moveTo(mira4.cx,mira4.cy); c4.lineTo(mira4.x,mira4.y); c4.stroke();
+      c4.setLineDash([]); c4.globalAlpha=1;
+      c4.fillStyle=colores.intrusa;
+      c4.beginPath(); c4.arc(mira4.x,mira4.y,3.6,0,6.2832); c4.fill();
+    }
+  }
+  function ciclo4(){ if(vivo4){paso4();dibujar4();} requestAnimationFrame(ciclo4); }
+  new IntersectionObserver(e=>{vivo4=e[0].isIntersecting},{threshold:0}).observe(ls);
+  addEventListener("resize",()=>{medir4();});
+  const btn4=document.getElementById("sim-reset-4");
+  if(btn4) btn4.addEventListener("click",reset4);
+  medir4(); reset4(); ciclo4();
 }
 </script>
 </body>
