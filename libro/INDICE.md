@@ -116,9 +116,13 @@ mensaje corre más rápido que el medio que lo lleva.
 - **Espina dorsal = la cadena de preguntas de Nico (2026-07-11):** el mar → la huella → dos
   huellas → mover la huella → moverla como el mar → soltarla. Los capítulos 1-2 y 9-11 son
   marco fino alrededor; si hay que cortar, se corta del marco, jamás del núcleo.
-- **Borradores existentes:** `pasaje-el-mar.md` (cap. 3), `pasaje-la-intrusa.md` (cap. 4),
-  `pasaje-dos-huellas.md` (cap. 5), `pasaje-energia-a-luz.md` (cap. 8).
-  `pasaje-el-gradiente.md` queda como material de archivo (fue absorbido por los caps. 4-5).
+- **Borradores existentes — NÚCLEO COMPLETO (2026-07-11):** `pasaje-el-mar.md` (cap. 3),
+  `pasaje-la-intrusa.md` (cap. 4), `pasaje-dos-huellas.md` (cap. 5),
+  `pasaje-mover-una-huella.md` (cap. 6), `pasaje-correr-como-el-mar.md` (cap. 7),
+  `pasaje-energia-a-luz.md` (cap. 8 — pendiente armonizar con la voz de la inmersión:
+  reemplazar "hueco/burbuja" por intrusa+huella, y el arranque del PET debe retomar el
+  anzuelo del cap. 7). `pasaje-el-gradiente.md` queda como material de archivo.
+- **Falta escribir:** caps. 1-2 (La puerta) y 9-11 + epílogo (La salida del agua).
 - **División del trabajo:** Nico = voz, escenas personales, veto de tono. Fable =
   arquitectura, redacción, control de honestidad línea a línea contra el corpus.
 - **Estilo:** visual e imaginable antes que preciso; cada capítulo abre con la pregunta y
