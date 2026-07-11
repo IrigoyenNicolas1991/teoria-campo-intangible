@@ -121,12 +121,16 @@ main{max-width:42rem;margin:0 auto;padding:1rem 1.4rem 4rem}
   padding:.3rem .8rem;border-radius:999px;transition:all .25s;
 }
 .sim-figura .sim-ctl:hover{background:var(--acento);color:var(--bg)}
-/* pantalla completa para las simulaciones */
-.sim-figura:fullscreen{
-  display:flex;flex-direction:column;background:var(--bg);border:none;border-radius:0;
+/* pantalla completa (CSS puro: funciona en TODOS los dispositivos, celulares incluidos) */
+.sim-figura.sim-max{
+  position:fixed;inset:0;z-index:95;margin:0;border:none;border-radius:0;
+  display:flex;flex-direction:column;background:var(--bg);
 }
-.sim-figura:fullscreen canvas{flex:1;height:auto;min-height:0}
-.sim-figura:fullscreen figcaption{flex:none}
+.sim-figura.sim-max canvas{flex:1;height:auto;min-height:0}
+.sim-figura.sim-max figcaption{flex:none;max-height:34vh;overflow-y:auto}
+body.sin-scroll{overflow:hidden}
+#sistema{touch-action:none}   /* en el sol, el dedo apunta — no scrollea */
+#mar{touch-action:pan-y}      /* en la portada, arrastre horizontal apunta; vertical scrollea */
 /* ---------- cierre ---------- */
 footer{
   border-top:1px solid var(--linea);margin-top:5rem;padding:3rem 1.4rem 4rem;
@@ -920,17 +924,16 @@ if(ls){
   addEventListener("resize",()=>{medir4();});
   const btn4=document.getElementById("sim-reset-4");
   if(btn4) btn4.addEventListener("click",reset4);
-  /* pantalla completa: el sol a toda cancha */
+  /* pantalla completa: CSS puro, anda en todos los dispositivos (celulares incluidos) */
   const btnFull=document.getElementById("sim-full-4");
   if(btnFull){
     btnFull.addEventListener("click",()=>{
       const fig=ls.closest("figure");
-      if(document.fullscreenElement){ document.exitFullscreen(); }
-      else if(fig.requestFullscreen){ fig.requestFullscreen(); }
-    });
-    document.addEventListener("fullscreenchange",()=>{
+      const activo=fig.classList.toggle("sim-max");
+      document.body.classList.toggle("sin-scroll",activo);
+      btnFull.textContent = activo ? "✕ salir de pantalla completa" : "⛶ pantalla completa";
       setTimeout(()=>{ medir4(); reset4(); },80);
-      btnFull.textContent = document.fullscreenElement ? "· salir de pantalla completa ·" : "⛶ pantalla completa";
+      if(!activo) fig.scrollIntoView({block:"center"});
     });
   }
   medir4(); reset4(); ciclo4();
