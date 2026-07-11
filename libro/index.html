@@ -107,6 +107,20 @@ main{max-width:42rem;margin:0 auto;padding:1rem 1.4rem 4rem}
 }
 .epilogo p{text-align:center}
 .epilogo > p:first-of-type::first-letter{float:none;font-size:inherit;padding:0;color:inherit;font-weight:inherit}
+/* ---------- figura de simulación ---------- */
+.sim-figura{margin:2.8rem 0 1.6rem;border:1px solid var(--linea);border-radius:14px;overflow:hidden;background:var(--bg2)}
+.sim-figura canvas{display:block;width:100%;height:340px;cursor:crosshair}
+.sim-figura figcaption{
+  padding:1rem 1.2rem 1.1rem;font-family:"Inter",sans-serif;font-size:.82rem;
+  line-height:1.65;color:var(--tinta-suave);border-top:1px solid var(--linea);
+}
+.sim-figura figcaption strong{color:var(--titulo)}
+.sim-figura .sim-ctl{
+  float:right;margin-left:1rem;cursor:pointer;border:1px solid var(--linea);background:transparent;
+  color:var(--acento);font-family:"Inter",sans-serif;font-size:.74rem;font-weight:500;
+  padding:.3rem .8rem;border-radius:999px;transition:all .25s;
+}
+.sim-figura .sim-ctl:hover{background:var(--acento);color:var(--bg)}
 /* ---------- cierre ---------- */
 footer{
   border-top:1px solid var(--linea);margin-top:5rem;padding:3rem 1.4rem 4rem;
@@ -238,6 +252,15 @@ footer p{margin:.35rem 0;line-height:1.7}
 <p>¿Y la fórmula de Newton, la del cuadrado de la distancia? Sale de la geometría del degradé: la huella se diluye con la distancia exactamente como se diluye la cáscara de una esfera que crece. Donde el manual pone un decreto, el mar pone una forma.</p>
 <p>Dos huellas quietas, entonces, ya nos pagaron la gravedad entera. Pero quedarse quieto es de planetas. Ahora viene la pregunta de taller que estabas esperando desde el título del libro:</p>
 <p>agarrá una huella... y tratá de <strong>moverla</strong>. ¿Cuesta? ¿Por qué?</p>
+<figure class="sim-figura">
+<canvas id="gravedad" aria-label="Simulación: dos intrusas atraídas por el empuje desigual del mar"></canvas>
+<figcaption><button class="sim-ctl" id="sim-reset">· reiniciar ·</button>
+<strong>Ninguna atracción está programada en esta simulación.</strong> Todas las fuerzas del
+código son de repulsión: el mar repele al mar, las intrusas repelen al mar. Nadie tira de
+nada. El mar se acomoda unos segundos y las suelta — miralas: cada una vive a la sombra de
+presión de la otra, el mar las empuja a encontrarse, y una vez juntas las mantiene unidas.
+El capítulo que acabás de leer, corriendo en vivo.</figcaption>
+</figure>
 </section>
 <section class="capitulo" id="cap-6"><h2 class="cap-titulo">6 · Mover una huella</h2>
 <p>Agarrá una intrusa y empujala. La pregunta del capítulo es de taller, con las manos sucias: ¿cuesta mover una huella? ¿Por qué?</p>
@@ -492,6 +515,96 @@ function dibujar(){
 function ciclo(){ if(vivo){paso();dibujar();} requestAnimationFrame(ciclo); }
 new IntersectionObserver(e=>{vivo=e[0].isIntersecting},{threshold:0}).observe(lienzo);
 leerColores(); medir(); ciclo();
+
+/* ============ dos huellas: la gravedad que emerge (cap 5) ============ */
+/* En esta simulación NO hay ninguna fuerza de atracción programada.
+   Todas las fuerzas del código son de repulsión de largo alcance
+   (mar-mar, intrusa-mar, y contacto intrusa-intrusa). La atracción
+   que se observa EMERGE del desbalance de presión: cada intrusa vive
+   a la sombra de la otra. Verificado numéricamente (motor idéntico,
+   Node): desde 200px de separación caen a contacto y quedan ligadas. */
+const lg=document.getElementById("gravedad");
+if(lg){
+  const c2=lg.getContext("2d");
+  const H2=340; let W2=0,pts=[],intr=[],vivo2=true,edad=0;
+  function medir2(){
+    const d=Math.min(devicePixelRatio||1,2);
+    W2=lg.clientWidth; lg.width=W2*d; lg.height=H2*d; c2.setTransform(d,0,0,d,0,0);
+  }
+  function reset2(){
+    pts=[];
+    const n=Math.min(300,Math.max(200,Math.round(W2*H2/760)));
+    for(let i=0;i<n;i++) pts.push({x:Math.random()*W2,y:Math.random()*H2,vx:0,vy:0});
+    const sep=Math.min(170,W2*0.27);
+    intr=[{x:W2/2-sep/2,y:H2/2,vx:0,vy:0,tr:[]},
+          {x:W2/2+sep/2,y:H2/2,vx:0,vy:0,tr:[]}];
+    edad=0;
+  }
+  const KII=14, KT=700, MASA=0.02, MIND=6, ESPERA=200;
+  function paso2(){
+    edad++;
+    for(let i=0;i<pts.length;i++){
+      const p=pts[i];
+      for(let j=i+1;j<pts.length;j++){
+        const q=pts[j];
+        const dx=p.x-q.x, dy=p.y-q.y;
+        let d2=dx*dx+dy*dy; if(d2<MIND*MIND) d2=MIND*MIND;
+        const fz=KII/(d2*Math.sqrt(d2));
+        p.vx+=dx*fz; p.vy+=dy*fz; q.vx-=dx*fz; q.vy-=dy*fz;
+      }
+      /* intrusa-mar: repulsión mutua (acción y reacción) */
+      for(const t of intr){
+        const dx=p.x-t.x, dy=p.y-t.y;
+        let d2=dx*dx+dy*dy; if(d2<MIND*MIND) d2=MIND*MIND;
+        const fz=KT/(d2*Math.sqrt(d2));
+        p.vx+=dx*fz; p.vy+=dy*fz;
+        t.vx-=dx*fz*MASA; t.vy-=dy*fz*MASA;
+      }
+    }
+    /* intrusa-intrusa: SOLO contacto (repulsión de corto alcance) */
+    const a=intr[0], b=intr[1];
+    { const dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy);
+      if(d<28&&d>0){ const fz=(1-d/28)*1.5/d;
+        a.vx+=dx*fz; a.vy+=dy*fz; b.vx-=dx*fz; b.vy-=dy*fz; } }
+    for(const p of pts){
+      p.vx+=(Math.random()-.5)*.06; p.vy+=(Math.random()-.5)*.06;
+      p.vx*=.9; p.vy*=.9; p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0){p.x=0;p.vx*=-.6} if(p.x>W2){p.x=W2;p.vx*=-.6}
+      if(p.y<0){p.y=0;p.vy*=-.6} if(p.y>H2){p.y=H2;p.vy*=-.6}
+    }
+    for(const t of intr){
+      /* el mar se acomoda primero; después las intrusas quedan libres */
+      if(edad<ESPERA){ t.vx=0; t.vy=0; continue; }
+      t.vx*=.95; t.vy*=.95; t.x+=t.vx; t.y+=t.vy;
+      t.x=Math.max(24,Math.min(W2-24,t.x)); t.y=Math.max(24,Math.min(H2-24,t.y));
+      t.tr.push({x:t.x,y:t.y}); if(t.tr.length>900) t.tr.shift();
+    }
+    window.__distHuellas=Math.hypot(a.x-b.x,a.y-b.y);
+  }
+  function dibujar2(){
+    c2.clearRect(0,0,W2,H2);
+    c2.fillStyle=colores.dot;
+    for(const p of pts){ c2.beginPath(); c2.arc(p.x,p.y,1.6,0,6.2832); c2.fill(); }
+    for(const t of intr){
+      if(t.tr.length>2){
+        c2.strokeStyle=colores.intrusa; c2.globalAlpha=.35; c2.lineWidth=1.2;
+        c2.beginPath(); c2.moveTo(t.tr[0].x,t.tr[0].y);
+        for(const s of t.tr) c2.lineTo(s.x,s.y);
+        c2.stroke(); c2.globalAlpha=1;
+      }
+      const g=c2.createRadialGradient(t.x,t.y,0,t.x,t.y,22);
+      g.addColorStop(0,colores.intrusa); g.addColorStop(1,"transparent");
+      c2.fillStyle=g; c2.beginPath(); c2.arc(t.x,t.y,22,0,6.2832); c2.fill();
+      c2.fillStyle=colores.intrusa; c2.beginPath(); c2.arc(t.x,t.y,5,0,6.2832); c2.fill();
+    }
+  }
+  function ciclo2(){ if(vivo2){paso2();dibujar2();} requestAnimationFrame(ciclo2); }
+  new IntersectionObserver(e=>{vivo2=e[0].isIntersecting},{threshold:0}).observe(lg);
+  addEventListener("resize",()=>{medir2();});
+  const btn=document.getElementById("sim-reset");
+  if(btn) btn.addEventListener("click",reset2);
+  medir2(); reset2(); ciclo2();
+}
 </script>
 </body>
 </html>
