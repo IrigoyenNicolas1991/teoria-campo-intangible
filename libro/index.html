@@ -74,6 +74,13 @@ header .marca b{color:var(--titulo);font-weight:600}
 }
 .flecha{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);color:var(--tinta-suave);animation:flotar 2.6s ease-in-out infinite;pointer-events:none}
 @keyframes flotar{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,9px)}}
+/* ---------- accesos al corpus ---------- */
+.accesos{
+  text-align:center;padding:2.8rem 1.4rem 0;
+  font-family:"Inter",system-ui,sans-serif;font-size:.82rem;color:var(--tinta-suave);
+}
+.accesos a{color:var(--acento);text-decoration:none}
+.accesos a:hover{text-decoration:underline}
 /* ---------- índice ---------- */
 #indice{max-width:42rem;margin:0 auto;padding:5.5rem 1.4rem 1rem}
 #indice h2{font-family:"Inter",sans-serif;font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--tinta-suave);text-align:center;margin-bottom:2.2rem}
@@ -169,6 +176,12 @@ footer p{margin:.35rem 0;line-height:1.7}
   <div class="pista">mové el cursor: sos la intrusa &nbsp;·&nbsp; arrastrá y soltá: disparala (no se frena nunca) &nbsp;·&nbsp; click corto: soltá la huella</div>
   <a class="flecha" href="#indice" aria-label="Bajar al índice">▾</a>
 </section>
+
+<div class="accesos">
+  <a href="https://irigoyennicolas1991.github.io/ift-theory/">Paper técnico (IFT)</a> ·
+  <a href="https://irigoyennicolas1991.github.io/teoria-campo-intangible/">Sitio conceptual</a> ·
+  <a href="https://doi.org/10.5281/zenodo.21177500">DOI Zenodo</a>
+</div>
 
 <nav id="indice">
   <h2>Cuaderno de buzo</h2>
