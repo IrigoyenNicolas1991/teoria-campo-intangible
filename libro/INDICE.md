@@ -122,7 +122,11 @@ mensaje corre más rápido que el medio que lo lleva.
   `pasaje-energia-a-luz.md` (cap. 8 — pendiente armonizar con la voz de la inmersión:
   reemplazar "hueco/burbuja" por intrusa+huella, y el arranque del PET debe retomar el
   anzuelo del cap. 7). `pasaje-el-gradiente.md` queda como material de archivo.
-- **Falta escribir:** caps. 1-2 (La puerta) y 9-11 + epílogo (La salida del agua).
+- **La puerta escrita (2026-07-11):** `pasaje-la-pregunta.md` (cap. 1, con lugar reservado
+  para la escena personal de Nico) y `pasaje-el-permiso.md` (cap. 2).
+- **Falta escribir:** caps. 9-11 + epílogo (La salida del agua) y la armonización del cap. 8.
+- **Nota de estilo (ficha de Nico, 2026-07-11):** sin autor en escena — nada de "metáfora
+  mía" ni orgullo detrás de la prosa; la física habla sola. Aplicado en cap. 6.
 - **División del trabajo:** Nico = voz, escenas personales, veto de tono. Fable =
   arquitectura, redacción, control de honestidad línea a línea contra el corpus.
 - **Estilo:** visual e imaginable antes que preciso; cada capítulo abre con la pregunta y

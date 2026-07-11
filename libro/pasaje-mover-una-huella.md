@@ -39,7 +39,7 @@ está armado y gira solo: gratis, como dijimos. Pero *acelerar* es otra historia
 rearmar el cortejo entero — ponerle velocidad nueva a todo ese mar que acompaña. Y el mar
 cobra por velocidad nueva, siempre.
 
-Esto tampoco es una metáfora mía. Los ingenieros navales lo calculan todos los días y tiene
+Esto tampoco es una metáfora. Los ingenieros navales lo calculan todos los días y tiene
 nombre de catálogo: **masa añadida**. Un submarino que acelera se comporta como si pesara
 más que ese mismo submarino a velocidad de crucero — porque no está acelerando solo al
 submarino: está acelerando al agua que lo acompaña. Preguntale a cualquiera que diseñe
