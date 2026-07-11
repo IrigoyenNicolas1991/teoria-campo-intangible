@@ -306,6 +306,16 @@ El capítulo que acabás de leer, corriendo en vivo.</figcaption>
 <p>Queda un cabo suelto, y es a propósito. Dijimos que el electrón desaparece al tocar a su gemela espejada, y le pusimos un nombre al gesto — el positrón tiene "el retorcimiento opuesto" — pero no explicamos por qué dos partículas que se tocan habrían de <em>anularse</em>. Las cosas no suelen hacer eso: dos piedras que chocan no se esfuman. Guardá esa extrañeza en el cuaderno de buzo, subrayada. Es la punta del hilo del capítulo 11, y cuando tires de ella se va a caer el último telón de este libro.</p>
 <p>Y para cerrar, la película en reversa, que también es real y también se mide: si juntás suficiente luz en un punto — una ondulación del mar lo bastante violenta — podés abrir dos huellas gemelas, una con cada retorcimiento. Los físicos lo llaman <em>creación de pares</em>. Materia naciendo de un golpe de ola. Misma imagen, sentido contrario.</p>
 <p>El mar te acaba de mostrar su secreto más lindo. Lo que queda del libro es salir del agua: ver qué mediciones ya pagó esta idea en su versión con ecuaciones, qué apostó, y — porque esta casa juega con las cartas boca arriba — el día que la naturaleza le dijo que no.</p>
+<figure class="sim-figura">
+<canvas id="aniquilacion" aria-label="Simulación: al apagar una intrusa, el mar colapsa y la energía guardada sale como onda"></canvas>
+<figcaption><button class="sim-ctl" id="sim-reset-3">· reiniciar ·</button>
+<strong>Hacé click sobre una intrusa: la apagás</strong> — pierde su repulsión y deja de
+sostener su huella. Mirá lo que hace el mar: se cierra sobre el hueco, y la tensión que
+estaba guardada sale ondulando hacia afuera. Ese destello que viaja no está dibujado: es el
+propio mar agitado, pintado según su velocidad — la luz de este universo. La energía no se
+creó ni se destruyó: estaba en la huella (capítulo 4) y salió de viaje. El recibo, cobrado
+en vivo.</figcaption>
+</figure>
 </section>
 <div class="parte"><span>TERCERA PARTE — LA SALIDA DEL AGUA</span></div>
 <section class="capitulo" id="cap-9"><h2 class="cap-titulo">9 · Lo que el mar ya pagó (y lo que apostó)</h2>
@@ -604,6 +614,96 @@ if(lg){
   const btn=document.getElementById("sim-reset");
   if(btn) btn.addEventListener("click",reset2);
   medir2(); reset2(); ciclo2();
+}
+
+/* ============ abrir la mano: la huella liberada (cap 8) ============ */
+/* Al apagar una intrusa (click), el mar colapsa sobre el hueco y la
+   tensión guardada sale como onda REAL (nada dibujado a mano): el
+   destello es el propio medio agitado, pintado según su velocidad.
+   Verificado en Node: colapso (vRad<0) → rebote saliente (vRad>0)
+   propagándose anillo por anillo → calma. Mar poco amortiguado
+   (damp .98) porque las ondas necesitan inercia. */
+const la=document.getElementById("aniquilacion");
+if(la){
+  const c3=la.getContext("2d");
+  const H3=340; let W3=0,pts3=[],trs=[],vivo3=true;
+  const KII3=14, KT3=700, MIND3=6;
+  function medir3(){
+    const d=Math.min(devicePixelRatio||1,2);
+    W3=la.clientWidth; la.width=W3*d; la.height=H3*d; c3.setTransform(d,0,0,d,0,0);
+  }
+  function reset3(){
+    pts3=[];
+    const n=Math.min(300,Math.max(200,Math.round(W3*H3/760)));
+    for(let i=0;i<n;i++) pts3.push({x:Math.random()*W3,y:Math.random()*H3,vx:0,vy:0});
+    trs=[{x:W3*0.3,y:H3/2,viva:true,fade:1},{x:W3*0.7,y:H3/2,viva:true,fade:1}];
+  }
+  la.addEventListener("pointerdown",e=>{
+    const r=la.getBoundingClientRect();
+    const mx=e.clientX-r.left, my=e.clientY-r.top;
+    for(const t of trs){
+      if(t.viva && Math.hypot(mx-t.x,my-t.y)<46){ t.viva=false; break; }
+    }
+  });
+  function paso3(){
+    const n=pts3.length;
+    for(let i=0;i<n;i++){
+      const p=pts3[i];
+      for(let j=i+1;j<n;j++){
+        const q=pts3[j];
+        const dx=p.x-q.x, dy=p.y-q.y;
+        let d2=dx*dx+dy*dy; if(d2<MIND3*MIND3) d2=MIND3*MIND3;
+        const fz=KII3/(d2*Math.sqrt(d2));
+        p.vx+=dx*fz; p.vy+=dy*fz; q.vx-=dx*fz; q.vy-=dy*fz;
+      }
+      for(const t of trs){
+        if(!t.viva) continue;
+        const dx=p.x-t.x, dy=p.y-t.y;
+        let d2=dx*dx+dy*dy; if(d2<MIND3*MIND3) d2=MIND3*MIND3;
+        const fz=KT3/(d2*Math.sqrt(d2));
+        p.vx+=dx*fz; p.vy+=dy*fz;
+      }
+    }
+    for(const p of pts3){
+      p.vx+=(Math.random()-.5)*.02; p.vy+=(Math.random()-.5)*.02;
+      p.vx*=.98; p.vy*=.98; p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0){p.x=0;p.vx*=-.6} if(p.x>W3){p.x=W3;p.vx*=-.6}
+      if(p.y<0){p.y=0;p.vy*=-.6} if(p.y>H3){p.y=H3;p.vy*=-.6}
+    }
+    for(const t of trs){ if(!t.viva&&t.fade>0) t.fade-=.02; }
+  }
+  function dibujar3(){
+    c3.clearRect(0,0,W3,H3);
+    for(const p of pts3){
+      const v=Math.hypot(p.vx,p.vy);
+      const g=Math.max(0,Math.min(1,(v-0.25)/0.45));
+      if(g>0){
+        c3.fillStyle=colores.intrusa; c3.globalAlpha=.35+.65*g;
+        c3.beginPath(); c3.arc(p.x,p.y,1.7+1.6*g,0,6.2832); c3.fill();
+        c3.globalAlpha=1;
+      }else{
+        c3.fillStyle=colores.dot;
+        c3.beginPath(); c3.arc(p.x,p.y,1.7,0,6.2832); c3.fill();
+      }
+    }
+    for(const t of trs){
+      if(t.viva){
+        const g=c3.createRadialGradient(t.x,t.y,0,t.x,t.y,24);
+        g.addColorStop(0,colores.intrusa); g.addColorStop(1,"transparent");
+        c3.fillStyle=g; c3.beginPath(); c3.arc(t.x,t.y,24,0,6.2832); c3.fill();
+        c3.fillStyle=colores.intrusa; c3.beginPath(); c3.arc(t.x,t.y,4.6,0,6.2832); c3.fill();
+      }else if(t.fade>0){
+        c3.strokeStyle=colores.dot; c3.globalAlpha=t.fade*.6; c3.lineWidth=1.5;
+        c3.beginPath(); c3.arc(t.x,t.y,5,0,6.2832); c3.stroke(); c3.globalAlpha=1;
+      }
+    }
+  }
+  function ciclo3(){ if(vivo3){paso3();dibujar3();} requestAnimationFrame(ciclo3); }
+  new IntersectionObserver(e=>{vivo3=e[0].isIntersecting},{threshold:0}).observe(la);
+  addEventListener("resize",()=>{medir3();});
+  const btn3=document.getElementById("sim-reset-3");
+  if(btn3) btn3.addEventListener("click",reset3);
+  medir3(); reset3(); ciclo3();
 }
 </script>
 </body>
