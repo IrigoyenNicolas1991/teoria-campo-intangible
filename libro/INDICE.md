@@ -124,7 +124,13 @@ mensaje corre más rápido que el medio que lo lleva.
   anzuelo del cap. 7). `pasaje-el-gradiente.md` queda como material de archivo.
 - **La puerta escrita (2026-07-11):** `pasaje-la-pregunta.md` (cap. 1, con lugar reservado
   para la escena personal de Nico) y `pasaje-el-permiso.md` (cap. 2).
-- **Falta escribir:** caps. 9-11 + epílogo (La salida del agua) y la armonización del cap. 8.
+- **La salida del agua escrita (2026-07-11):** `pasaje-lo-que-el-mar-pago.md` (cap. 9),
+  `pasaje-el-golpe.md` (cap. 10), `pasaje-nunca-hubo-intrusa.md` (cap. 11, incluye el
+  marcador honesto final). Cap. 8 armonizado a la voz de la inmersión (v2, planta el cabo
+  suelto "¿por qué se anulan?" que el cap. 11 recoge).
+- **LIBRO ENSAMBLADO: `LIBRO.md`** (~8.300 palabras ≈ 16-18 carillas) — borrador completo
+  de punta a punta, listo para lectura corrida. Pendiente: escena personal de Nico en el
+  cap. 1, y su pasada de veto de tono sobre el conjunto.
 - **Nota de estilo (ficha de Nico, 2026-07-11):** sin autor en escena — nada de "metáfora
   mía" ni orgullo detrás de la prosa; la física habla sola. Aplicado en cap. 6.
 - **División del trabajo:** Nico = voz, escenas personales, veto de tono. Fable =
