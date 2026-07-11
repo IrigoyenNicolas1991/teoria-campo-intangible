@@ -121,6 +121,12 @@ main{max-width:42rem;margin:0 auto;padding:1rem 1.4rem 4rem}
   padding:.3rem .8rem;border-radius:999px;transition:all .25s;
 }
 .sim-figura .sim-ctl:hover{background:var(--acento);color:var(--bg)}
+/* pantalla completa para las simulaciones */
+.sim-figura:fullscreen{
+  display:flex;flex-direction:column;background:var(--bg);border:none;border-radius:0;
+}
+.sim-figura:fullscreen canvas{flex:1;height:auto;min-height:0}
+.sim-figura:fullscreen figcaption{flex:none}
 /* ---------- cierre ---------- */
 footer{
   border-top:1px solid var(--linea);margin-top:5rem;padding:3rem 1.4rem 4rem;
@@ -331,14 +337,15 @@ en vivo.</figcaption>
 <p>¿Y por qué tanta insistencia con los recibos, las confesiones, las apuestas selladas? Porque el próximo capítulo cuenta la parte de esta historia que ningún libro de teorías alternativas cuenta jamás. El día que la naturaleza dijo <strong>no</strong>.</p>
 <figure class="sim-figura">
 <canvas id="sistema" aria-label="Simulación: un sol en el mar; las sondas disparadas se curvan o son capturadas sin gravedad programada"></canvas>
-<figcaption><button class="sim-ctl" id="sim-reset-4">· reiniciar ·</button>
-<strong>Un sol en el mar. Ninguna gravedad programada</strong> — el sol y las sondas solo
-repelen al mar; todo lo demás emerge. Arrastrá y soltá para disparar una sonda: si pasa
-rápido y lejos, su trayectoria <em>se curva</em> al rodear el sol, como la honda espacial de
-las misiones reales; si va lenta o apunta cerca, el mar la captura y cae en espiral — y al
-caer, su huella colapsa y el destello viaja (capítulo 8). Confesión de la casa: acá no hay
-órbitas eternas, porque nuestro mar de bits tiene una pizca de fricción interna que las va
-gastando; el mar perfecto del capítulo 6 no la tendría.</figcaption>
+<figcaption><button class="sim-ctl" id="sim-reset-4">· reiniciar ·</button><button class="sim-ctl" id="sim-full-4">⛶ pantalla completa</button>
+<strong>Apretá en cualquier lado, arrastrá, y soltá: disparás una sonda.</strong> Eso es
+todo — la magia la pone el mar. <strong>Ninguna gravedad está programada</strong>: el sol y
+las sondas solo repelen al mar, y sin embargo… la sonda que pasa rápido y de costado
+<em>se curva</em> al rodear el sol, como la honda espacial de las misiones reales; la que va
+lenta o apunta cerca es capturada, cae en espiral, y al morir su huella colapsa con un
+destello (capítulo 8). Confesión de la casa: acá no hay órbitas eternas, porque nuestro mar
+de bits tiene una pizca de fricción interna que las va gastando; el mar perfecto del
+capítulo 6 no la tendría.</figcaption>
 </figure>
 </section>
 <section class="capitulo" id="cap-10"><h2 class="cap-titulo">10 · El golpe y la salida</h2>
@@ -791,17 +798,18 @@ if(la){
 const ls=document.getElementById("sistema");
 if(ls){
   const c4=ls.getContext("2d");
-  const H4=380; let W4=0,pts4=[],sondas=[],mira4=null,vivo4=true,sol4={x:0,y:0};
+  let H4=340, W4=0,pts4=[],sondas=[],mira4=null,vivo4=true,sol4={x:0,y:0},reloj4=0;
   const KII4=14, KTSOL=400, KTP=280, MASA4=0.03, MIND4=6;
   function medir4(){
     const d=Math.min(devicePixelRatio||1,2);
-    W4=ls.clientWidth; ls.width=W4*d; ls.height=H4*d; c4.setTransform(d,0,0,d,0,0);
+    W4=ls.clientWidth; H4=ls.clientHeight;
+    ls.width=W4*d; ls.height=H4*d; c4.setTransform(d,0,0,d,0,0);
   }
   function reset4(){
     pts4=[];
-    const n=Math.min(420,Math.max(240,Math.round(W4*H4/700)));
+    const n=Math.min(650,Math.max(240,Math.round(W4*H4/700)));
     for(let i=0;i<n;i++) pts4.push({x:Math.random()*W4,y:Math.random()*H4,vx:0,vy:0});
-    sondas=[]; sol4={x:W4/2,y:H4/2};
+    sondas=[]; sol4={x:W4/2,y:H4/2}; reloj4=0;
   }
   function pos4(e){ const r=ls.getBoundingClientRect(); return {x:e.clientX-r.left,y:e.clientY-r.top}; }
   ls.addEventListener("pointerdown",e=>{ const m=pos4(e); mira4={x:m.x,y:m.y,cx:m.x,cy:m.y}; });
@@ -896,12 +904,35 @@ if(ls){
       c4.fillStyle=colores.intrusa;
       c4.beginPath(); c4.arc(mira4.x,mira4.y,3.6,0,6.2832); c4.fill();
     }
+    /* invitación mientras nadie disparó nada */
+    if(sondas.length===0 && !mira4){
+      reloj4++;
+      const pulso=.45+.35*Math.sin(reloj4*.05);
+      c4.font='500 14px Inter, system-ui, sans-serif';
+      c4.textAlign='center'; c4.globalAlpha=pulso;
+      c4.fillStyle=colores.intrusa;
+      c4.fillText('apretá, arrastrá y soltá — disparás una sonda', W4/2, H4-22);
+      c4.globalAlpha=1;
+    }
   }
   function ciclo4(){ if(vivo4){paso4();dibujar4();} requestAnimationFrame(ciclo4); }
   new IntersectionObserver(e=>{vivo4=e[0].isIntersecting},{threshold:0}).observe(ls);
   addEventListener("resize",()=>{medir4();});
   const btn4=document.getElementById("sim-reset-4");
   if(btn4) btn4.addEventListener("click",reset4);
+  /* pantalla completa: el sol a toda cancha */
+  const btnFull=document.getElementById("sim-full-4");
+  if(btnFull){
+    btnFull.addEventListener("click",()=>{
+      const fig=ls.closest("figure");
+      if(document.fullscreenElement){ document.exitFullscreen(); }
+      else if(fig.requestFullscreen){ fig.requestFullscreen(); }
+    });
+    document.addEventListener("fullscreenchange",()=>{
+      setTimeout(()=>{ medir4(); reset4(); },80);
+      btnFull.textContent = document.fullscreenElement ? "· salir de pantalla completa ·" : "⛶ pantalla completa";
+    });
+  }
   medir4(); reset4(); ciclo4();
 }
 </script>
