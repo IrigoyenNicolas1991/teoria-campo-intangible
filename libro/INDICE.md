@@ -116,8 +116,9 @@ mensaje corre más rápido que el medio que lo lleva.
 - **Espina dorsal = la cadena de preguntas de Nico (2026-07-11):** el mar → la huella → dos
   huellas → mover la huella → moverla como el mar → soltarla. Los capítulos 1-2 y 9-11 son
   marco fino alrededor; si hay que cortar, se corta del marco, jamás del núcleo.
-- **Borradores existentes:** `pasaje-el-mar.md` (cap. 3), `pasaje-el-gradiente.md` (material
-  para caps. 4-6), `pasaje-energia-a-luz.md` (cap. 8).
+- **Borradores existentes:** `pasaje-el-mar.md` (cap. 3), `pasaje-la-intrusa.md` (cap. 4),
+  `pasaje-dos-huellas.md` (cap. 5), `pasaje-energia-a-luz.md` (cap. 8).
+  `pasaje-el-gradiente.md` queda como material de archivo (fue absorbido por los caps. 4-5).
 - **División del trabajo:** Nico = voz, escenas personales, veto de tono. Fable =
   arquitectura, redacción, control de honestidad línea a línea contra el corpus.
 - **Estilo:** visual e imaginable antes que preciso; cada capítulo abre con la pregunta y

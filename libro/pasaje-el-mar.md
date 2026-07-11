@@ -7,8 +7,9 @@
 Vamos a construir un universo. No te asustes: necesitamos un solo ingrediente.
 
 Imaginate una partícula diminuta — no le pidas color ni forma, no los va a necesitar — con
-una única propiedad: **no soporta a las de su especie**. Poné dos cerca y se empujan. Más
-cerca, más fuerte se empujan. Eso es todo lo que sabe hacer.
+una única propiedad: **no soporta a las de su especie**. Poné dos cerca y se empujan para
+alejarse — en física esto tiene nombre: se **repelen**. Más cerca, más fuerte se repelen.
+Eso es todo lo que saben hacer.
 
 Ahora fabricá un número absurdo de ellas y llená el espacio. Todo el espacio.
 
