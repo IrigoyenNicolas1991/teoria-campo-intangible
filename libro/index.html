@@ -420,7 +420,7 @@ function medir(){
   W=lienzo.clientWidth; H=lienzo.clientHeight;
   lienzo.width=W*dpr; lienzo.height=H*dpr;
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  const objetivo=Math.min(340,Math.max(140,Math.round(W*H/5200)));
+  const objetivo=Math.min(4600,Math.max(800,Math.round(W*H/290)));
   while(puntos.length<objetivo) puntos.push({x:Math.random()*W,y:Math.random()*H,vx:0,vy:0});
   puntos.length=objetivo;
 }
@@ -540,17 +540,20 @@ function paso(){
 }
 function dibujar(){
   ctx.clearRect(0,0,W,H);
+  /* mar denso: puntos base como rects (rápido); los agitados brillan como arcos */
+  const brillantes=[];
+  ctx.fillStyle=colores.dot;
   for(const p of puntos){
-    const v=Math.hypot(p.vx,p.vy);
-    const g=Math.max(0,Math.min(1,(v-1.1)/1.4));
-    if(g>0){
-      ctx.fillStyle=colores.intrusa; ctx.globalAlpha=.3+.7*g;
-      ctx.beginPath(); ctx.arc(p.x,p.y,1.7+1.5*g,0,6.2832); ctx.fill();
-      ctx.globalAlpha=1;
-    }else{
-      ctx.fillStyle=colores.dot;
-      ctx.beginPath(); ctx.arc(p.x,p.y,1.7,0,6.2832); ctx.fill();
-    }
+    const v2=p.vx*p.vx+p.vy*p.vy;
+    if(v2>1.21) brillantes.push(p);
+    else ctx.fillRect(p.x-1.1,p.y-1.1,2.2,2.2);
+  }
+  for(const p of brillantes){
+    const v=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+    const g=Math.min(1,(v-1.1)/1.4);
+    ctx.fillStyle=colores.intrusa; ctx.globalAlpha=.3+.7*g;
+    ctx.beginPath(); ctx.arc(p.x,p.y,1.6+1.5*g,0,6.2832); ctx.fill();
+    ctx.globalAlpha=1;
   }
   for(const b of balas){
     const g=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,20);
