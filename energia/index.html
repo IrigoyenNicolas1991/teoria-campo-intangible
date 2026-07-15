@@ -164,11 +164,14 @@
 (function(){
 "use strict";
 /* ============================================================
-   Lo que el mar pagó — motor del libro (cap 8), verificado en Node:
-   granos con repulsión 1/d² de largo alcance, damp .98; la partícula
-   es solo otra fuente de empuje. Cavidad, colapso y onda EMERGEN.
-   Calibración Node (900×560, 1 grano/630px²): KT 10→700 da cavidad
-   32→129px; aniquilación: vRad −1.1 (colapso) → +0.24 saliente.
+   Lo que el mar pagó — motor del libro (cap 8) sobre un TORO:
+   granos con repulsión 1/d² de largo alcance (mínima imagen, sin
+   paredes: el lienzo es una ventana a un mar infinito — con paredes
+   el mar se va a los bordes como cargas en un conductor), damp .98;
+   la partícula es solo otra fuente de empuje. Cavidad, colapso y
+   onda EMERGEN. Calibración Node (900×560, 1 grano/630px²):
+   KT 30→700 da cavidad 29→88px (masa 3→38 granos); aniquilación:
+   colapso vRad −1.4, cierre en ~1.8s, rebote saliente +0.35.
    ============================================================ */
 const KII=14, MIND2=36, DAMP=.98, NOISE=.02, KTMAX=700, RAMPA_MS=3000;
 const AREA_GRANO=630;          /* px² por grano (densidad del mar) */
@@ -182,7 +185,16 @@ function medir(){
   const d=Math.min(devicePixelRatio||1,2);
   W=esc.clientWidth; H=esc.clientHeight;      /* clientHeight, no el atributo */
   lienzo.width=W*d; lienzo.height=H*d; ctx.setTransform(d,0,0,d,0,0);
-  const objetivo=Math.min(1300,Math.max(250,Math.round(W*H/AREA_GRANO)));
+  const objetivo=Math.min(1000,Math.max(250,Math.round(W*H/AREA_GRANO)));
+  if(granos.length===0){
+    /* grilla con jitter: el mar nace casi en equilibrio (sin agitación espuria) */
+    const cols=Math.max(1,Math.round(Math.sqrt(objetivo*W/H)));
+    const filas=Math.ceil(objetivo/cols), sx=W/cols, sy=H/filas;
+    for(let f=0;f<filas&&granos.length<objetivo;f++)
+      for(let c=0;c<cols&&granos.length<objetivo;c++)
+        granos.push({x:(c+.5+(Math.random()-.5)*.5)*sx,
+                     y:(f+.5+(Math.random()-.5)*.5)*sy,vx:0,vy:0});
+  }
   while(granos.length<objetivo) granos.push({x:Math.random()*W,y:Math.random()*H,vx:0,vy:0});
   granos.length=objetivo;
 }
@@ -224,19 +236,23 @@ document.getElementById("calma").addEventListener("click",()=>{
 
 /* ---------- física (idéntica al banco de pruebas) ---------- */
 function paso(){
-  const n=granos.length;
+  const n=granos.length, hw=W/2, hh=H/2;
   for(let i=0;i<n;i++){
     const p=granos[i];
     for(let j=i+1;j<n;j++){
       const q=granos[j];
-      const dx=p.x-q.x, dy=p.y-q.y;
+      let dx=p.x-q.x, dy=p.y-q.y;
+      if(dx>hw)dx-=W; else if(dx<-hw)dx+=W;
+      if(dy>hh)dy-=H; else if(dy<-hh)dy+=H;
       let d2=dx*dx+dy*dy; if(d2<MIND2) d2=MIND2;
       const fz=KII/(d2*Math.sqrt(d2));
       p.vx+=dx*fz; p.vy+=dy*fz; q.vx-=dx*fz; q.vy-=dy*fz;
     }
     for(const t of particulas){
       if(t.k<=0) continue;
-      const dx=p.x-t.x, dy=p.y-t.y;
+      let dx=p.x-t.x, dy=p.y-t.y;
+      if(dx>hw)dx-=W; else if(dx<-hw)dx+=W;
+      if(dy>hh)dy-=H; else if(dy<-hh)dy+=H;
       let d2=dx*dx+dy*dy; if(d2<MIND2) d2=MIND2;
       const fz=t.k/(d2*Math.sqrt(d2));
       p.vx+=dx*fz; p.vy+=dy*fz;
@@ -245,8 +261,8 @@ function paso(){
   for(const p of granos){
     p.vx+=(Math.random()-.5)*NOISE; p.vy+=(Math.random()-.5)*NOISE;
     p.vx*=DAMP; p.vy*=DAMP; p.x+=p.vx; p.y+=p.vy;
-    if(p.x<0){p.x=0;p.vx*=-.6} if(p.x>W){p.x=W;p.vx*=-.6}
-    if(p.y<0){p.y=0;p.vy*=-.6} if(p.y>H){p.y=H;p.vy*=-.6}
+    if(p.x<0)p.x+=W; else if(p.x>=W)p.x-=W;
+    if(p.y<0)p.y+=H; else if(p.y>=H)p.y-=H;
   }
   /* rampa de fuerza mientras se sostiene */
   const ahora=performance.now();
@@ -257,10 +273,14 @@ function paso(){
         t.k=KTMAX*Math.pow(u,1.3);
       }
     }
-    /* medición REAL: radio de cavidad = grano más cercano (EMA) */
+    /* medición REAL: radio de cavidad = grano más cercano (EMA, toro) */
     let rc=1e9;
+    const hw=W/2, hh=H/2;
     for(const p of granos){
-      const dx=p.x-t.x, dy=p.y-t.y, d2=dx*dx+dy*dy;
+      let dx=p.x-t.x, dy=p.y-t.y;
+      if(dx>hw)dx-=W; else if(dx<-hw)dx+=W;
+      if(dy>hh)dy-=H; else if(dy<-hh)dy+=H;
+      const d2=dx*dx+dy*dy;
       if(d2<rc) rc=d2;
     }
     rc=Math.sqrt(rc);
@@ -274,15 +294,15 @@ function masaDe(t){ return Math.max(0,Math.PI*(t.rMed*t.rMed-R0*R0)/AREA_GRANO);
 function dibujar(){
   ctx.clearRect(0,0,W,H);
   const brillantes=[];
-  ctx.fillStyle="rgba(148,196,255,.72)";
+  ctx.fillStyle="rgba(154,200,255,.82)";
   for(const p of granos){
     const v2=p.vx*p.vx+p.vy*p.vy;
-    if(v2>.0625) brillantes.push(p);          /* v>0.25: el medio agitado ES la luz */
-    else ctx.fillRect(p.x-1.1,p.y-1.1,2.2,2.2);
+    if(v2>.2) brillantes.push(p);             /* v>0.45: el medio agitado ES la luz */
+    else ctx.fillRect(p.x-1.3,p.y-1.3,2.6,2.6);
   }
   for(const p of brillantes){
     const v=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
-    const g=Math.min(1,(v-.25)/.7);
+    const g=Math.min(1,(v-.45)/.75);
     ctx.fillStyle=g>.55?"#ffd894":"#ffb35c";
     ctx.globalAlpha=.3+.7*g;
     ctx.beginPath(); ctx.arc(p.x,p.y,1.6+1.9*g,0,6.2832); ctx.fill();
@@ -358,7 +378,7 @@ function demoPaso(ahora){
   }
   const t=ahora-demo.t0;
   if(demo.paso===0){                                  /* nace el hueco */
-    const p={x:W*.5,y:H*.46,k:0,viva:true,rMed:R0,t0:ahora};
+    const p={x:W*.40,y:H*.55,k:0,viva:true,rMed:R0,t0:ahora};
     particulas.push(p); demo.p=p; demo.paso=1; fase("creciendo");
   }else if(demo.paso===1){
     const u=Math.min(1,t/RAMPA_MS);
@@ -378,7 +398,9 @@ function ciclo(ahora){
 }
 new IntersectionObserver(e=>{vivo=e[0].isIntersecting},{threshold:0}).observe(esc);
 document.addEventListener("visibilitychange",()=>{vivo=!document.hidden;});
-medir(); fase("inicio"); requestAnimationFrame(ciclo);
+medir();
+for(let f=0;f<90;f++) paso();               /* calentar: el primer cuadro ya es un mar sereno */
+fase("inicio"); requestAnimationFrame(ciclo);
 })();
 </script>
 </body>
