@@ -98,7 +98,23 @@ header .marca b{color:var(--titulo);font-weight:600}
   font-family:"Inter",system-ui,sans-serif;font-size:.82rem;color:var(--tinta-suave);
 }
 .accesos a{color:var(--acento);text-decoration:none}
-.accesos a:hover{text-decoration:underline}
+.accesos .corpus a:hover{text-decoration:underline}
+/* las joyitas: las piezas interactivas, bien al frente */
+.accesos .rotulo-joyitas{
+  font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--tinta-suave);margin-bottom:1.1rem;
+}
+.joyitas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.joyita{
+  display:flex;flex-direction:column;gap:.35rem;align-items:center;text-align:center;
+  width:min(21rem,86vw);padding:1.15rem 1.3rem 1.25rem;
+  border:1px solid var(--linea);border-radius:14px;background:var(--panel);
+  transition:border-color .25s,transform .25s,box-shadow .25s;
+}
+.joyita:hover{border-color:var(--acento);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.joyita .icono{font-size:1.7rem;line-height:1}
+.joyita .titulo{font-weight:600;font-size:1.02rem;color:var(--titulo);letter-spacing:.02em}
+.joyita .bajada{font-size:.8rem;color:var(--tinta-suave);line-height:1.55}
 /* ---------- índice ---------- */
 #indice{max-width:42rem;margin:0 auto;padding:5.5rem 1.4rem 1rem}
 #indice h2{font-family:"Inter",sans-serif;font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--tinta-suave);text-align:center;margin-bottom:2.2rem}
@@ -196,10 +212,23 @@ footer p{margin:.35rem 0;line-height:1.7}
 </section>
 
 <div class="accesos">
-  <a href="../simulador/">🪐 El simulador</a> ·
+  <div class="rotulo-joyitas">Para jugar antes (o después) de leer</div>
+  <div class="joyitas">
+    <a class="joyita" href="../simulador/">
+      <span class="icono">🪐</span>
+      <span class="titulo">El simulador</span>
+      <span class="bajada">Un sol, un planeta y el mar. Ninguna gravedad programada — y el planeta orbita igual, decenas de vueltas.</span>
+    </a>
+    <a class="joyita" href="../energia/">
+      <span class="icono">⚡</span>
+      <span class="titulo">Lo que el mar pagó</span>
+      <span class="bajada">Abrí un hueco en el mar, mirá cuánto cuesta, y cobrá la deuda. E&nbsp;=&nbsp;mc² contado por el propio mar.</span>
+    </a>
+  </div>
+  <p class="corpus">
   <a href="https://irigoyennicolas1991.github.io/ift-theory/">Paper técnico (IFT)</a> ·
   <a href="https://irigoyennicolas1991.github.io/teoria-campo-intangible/">Sitio conceptual</a> ·
-  <a href="https://doi.org/10.5281/zenodo.21177500">DOI Zenodo</a>
+  <a href="https://doi.org/10.5281/zenodo.21177500">DOI Zenodo</a></p>
 </div>
 
 <nav id="indice">
@@ -356,7 +385,10 @@ sostener su huella. Mirá lo que hace el mar: se cierra sobre el hueco, y la ten
 estaba guardada sale ondulando hacia afuera. Ese destello que viaja no está dibujado: es el
 propio mar agitado, pintado según su velocidad — la luz de este universo. La energía no se
 creó ni se destruyó: estaba en la huella (capítulo 4) y salió de viaje. El recibo, cobrado
-en vivo.</figcaption>
+en vivo. <strong>¿Querés cobrarlo con tus propias manos?</strong> En
+<a href="../energia/">⚡ Lo que el mar pagó</a> abrís el hueco vos, un contador mide en vivo
+el mar desalojado, y al cerrarse el hueco esa cuenta se transforma, paso a paso, en la
+fórmula de la remera del capítulo 4.</figcaption>
 </figure>
 </section>
 <div class="parte"><span>TERCERA PARTE — LA SALIDA DEL AGUA</span></div>
@@ -432,6 +464,7 @@ decenas — con un solo truco, declarado ahí mismo con su número.</figcaption>
   <div class="olas">~ ~ ~</div>
   <p>Las cuentas duras que respaldan cada «exactamente» de estas páginas son públicas, con fecha certificada.</p>
   <p><a href="../simulador/">🪐 El simulador</a> ·
+     <a href="../energia/">⚡ Lo que el mar pagó</a> ·
      <a href="https://irigoyennicolas1991.github.io/ift-theory/">Paper técnico (IFT)</a> ·
      <a href="https://irigoyennicolas1991.github.io/teoria-campo-intangible/">Sitio conceptual</a> ·
      <a href="https://doi.org/10.5281/zenodo.21177500">DOI Zenodo</a></p>
