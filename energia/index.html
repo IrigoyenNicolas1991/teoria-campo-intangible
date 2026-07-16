@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="La energía en reposo según la Teoría del Campo Intangible: abrí un hueco en el mar, mirá cuánto cuesta, y cobrá la deuda. E=mc² contado por el propio mar.">
+</head>
+<body>
+<title>Lo que el mar pagó — E=mc² según TCI</title>
+<style>
+  :root{
+    --abismo:#050b16;
+    --marfondo0:#0c1930; --marfondo1:#071120;
+    --grano:rgba(148,196,255,.72);
+    --brasa:#ffb35c; --luz:#ffd894;
+    --tinta:#c4d4ec; --tenue:#7e93b4; --titulo:#eff5ff;
+    --velo:rgba(148,196,255,.16);
+    --serif:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
+    --mono:'Cascadia Mono',Consolas,'SF Mono','Roboto Mono',monospace;
+  }
+  html,body{background:var(--abismo)}
+  body{margin:0;color:var(--tinta);font-family:var(--serif);
+       -webkit-font-smoothing:antialiased}
+  .pieza{max-width:1150px;margin:0 auto;padding:34px 18px 60px}
+
+  header{text-align:center;margin:10px auto 26px;max-width:46rem}
+  .ceja{font-family:var(--mono);font-size:.68rem;letter-spacing:.32em;color:var(--tenue);
+        text-transform:uppercase;margin:0 0 14px}
+  h1{font-size:clamp(2rem,5.4vw,3.4rem);font-weight:400;color:var(--titulo);
+     margin:0 0 14px;letter-spacing:.01em;text-wrap:balance;line-height:1.08}
+  .bajada{font-size:clamp(1rem,2.2vw,1.14rem);line-height:1.62;color:var(--tinta);
+          margin:0;text-wrap:balance}
+  .bajada em{color:var(--luz);font-style:italic}
+
+  /* ---------- el escenario ---------- */
+  .escenario{position:relative;height:min(66vh,640px);min-height:420px;
+             border:1px solid var(--velo);border-radius:4px;overflow:hidden;
+             background:radial-gradient(ellipse 90% 130% at 50% 45%,var(--marfondo0),var(--marfondo1) 75%);
+             cursor:crosshair;touch-action:none}
+  #mar{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .vineta{position:absolute;inset:0;pointer-events:none;
+          box-shadow:inset 0 0 120px 30px rgba(3,7,14,.75)}
+
+  /* medidor (el instrumento) */
+  .medidor{position:absolute;top:14px;right:14px;text-align:right;
+           font-family:var(--mono);pointer-events:none;
+           padding:10px 14px;border:1px solid var(--velo);border-radius:3px;
+           background:rgba(5,11,22,.55);backdrop-filter:blur(2px);
+           opacity:0;transition:opacity .6s}
+  .medidor.visible{opacity:1}
+  .medidor .rotulo{font-size:.6rem;letter-spacing:.26em;color:var(--tenue);text-transform:uppercase}
+  .medidor .numero{font-size:1.9rem;color:var(--luz);font-variant-numeric:tabular-nums;
+                   line-height:1.25;text-shadow:0 0 18px rgba(255,179,92,.35)}
+  .medidor .numero small{font-size:.85rem;color:var(--tinta)}
+  .medidor .doble{font-size:.78rem;color:var(--tenue);font-variant-numeric:tabular-nums;line-height:1.7}
+  .medidor .doble b{color:var(--brasa);font-weight:400}
+
+  /* subtítulos de la película */
+  .subtitulo{position:absolute;left:0;right:0;bottom:16px;text-align:center;
+             pointer-events:none;padding:0 20px}
+  .subtitulo p{display:inline-block;margin:0;font-size:clamp(.95rem,2vw,1.12rem);
+               line-height:1.5;color:var(--titulo);max-width:38rem;text-wrap:balance;
+               background:rgba(5,11,22,.6);padding:8px 16px;border-radius:3px;
+               opacity:0;transition:opacity .8s}
+  .subtitulo p.visible{opacity:1}
+  .subtitulo b{color:var(--luz);font-weight:400}
+
+  /* la ecuación — el golpe */
+  .ecuacion{position:absolute;inset:0;display:flex;flex-direction:column;
+            justify-content:center;align-items:center;gap:.4em;
+            pointer-events:none;font-family:var(--serif)}
+  .ecuacion .linea{opacity:0;transform:translateY(8px);
+                   transition:opacity 1.1s,transform 1.1s;
+                   font-size:clamp(1.05rem,2.6vw,1.5rem);color:var(--tinta);
+                   font-style:italic;text-shadow:0 2px 14px rgba(3,7,14,.9)}
+  .ecuacion .linea small{font-size:.62em;color:var(--tenue);font-style:normal}
+  .ecuacion .final{font-size:clamp(2.6rem,8vw,4.6rem);color:var(--luz);font-style:normal;
+                   text-shadow:0 0 34px rgba(255,179,92,.55),0 0 90px rgba(255,179,92,.28)}
+  .ecuacion .linea.visible{opacity:1;transform:none}
+  .ecuacion .linea.apagada{opacity:.28}
+
+  /* pie */
+  .pie{max-width:46rem;margin:26px auto 0;font-size:.95rem;line-height:1.65}
+  .acciones{display:flex;gap:14px;justify-content:center;align-items:center;
+            margin:0 0 18px;flex-wrap:wrap}
+  button.calma{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;
+               text-transform:uppercase;color:var(--tenue);background:none;
+               border:1px solid var(--velo);border-radius:3px;padding:9px 18px;cursor:pointer}
+  button.calma:hover,button.calma:focus-visible{color:var(--luz);border-color:var(--brasa);outline:none}
+  details{border-top:1px solid var(--velo);padding-top:16px;color:var(--tenue)}
+  summary{cursor:pointer;font-family:var(--mono);font-size:.72rem;
+          letter-spacing:.22em;text-transform:uppercase;color:var(--tenue)}
+  summary:hover{color:var(--tinta)}
+  details p{margin:14px 0 0;color:var(--tenue)}
+  details b{color:var(--tinta);font-weight:400}
+  .enlaces{margin-top:14px;font-family:var(--mono);font-size:.78rem;line-height:2}
+  .enlaces a{color:var(--brasa);text-decoration:none;border-bottom:1px solid rgba(255,179,92,.3)}
+  .enlaces a:hover{color:var(--luz)}
+  @media (prefers-reduced-motion:reduce){
+    .subtitulo p,.ecuacion .linea,.medidor{transition:none}
+  }
+</style>
+
+<div class="pieza">
+  <header>
+    <p class="ceja">Teoría del Campo Intangible</p>
+    <h1>Lo que el mar pagó</h1>
+    <p class="bajada">La energía en reposo no vive adentro de la partícula.
+      Es el mar de alrededor, <em>empujando</em>. Abrí un hueco en el mar
+      y fijate cuánto cuesta — después cobralo.</p>
+  </header>
+
+  <div class="escenario" id="escenario">
+    <canvas id="mar"></canvas>
+    <div class="vineta"></div>
+
+    <div class="medidor" id="medidor">
+      <div class="rotulo">mar desalojado</div>
+      <div class="numero"><span id="granos">0</span> <small>granos</small></div>
+      <div class="doble">masa&nbsp;&nbsp;<b>m = <span id="m-eq">0</span></b><br>
+                         energía&nbsp;&nbsp;<b>E = <span id="e-eq">0</span>·c²</b></div>
+    </div>
+
+    <div class="ecuacion" id="ecuacion" aria-live="polite">
+      <div class="linea" id="eq1">E = P·V &nbsp;<small>el trabajo de abrir el hueco</small></div>
+      <div class="linea" id="eq2">P = ρ₀c² &nbsp;<small>así empuja el mar</small></div>
+      <div class="linea" id="eq3">E = (ρ₀V)·c² &nbsp;<small>y ρ₀V es el mar desalojado: la masa</small></div>
+      <div class="linea final" id="eq4">E = mc²</div>
+      <div class="linea" id="eq5">La tensión quieta se llamaba masa.<br>
+        La misma tensión, en viaje, se llama <b style="color:var(--luz)">luz</b>.</div>
+    </div>
+
+    <div class="subtitulo"><p id="sub"></p></div>
+  </div>
+
+  <div class="pie">
+    <div class="acciones" style="margin-top:18px">
+      <button class="calma" id="calma">calmar el mar</button>
+    </div>
+    <details>
+      <summary>la letra chica</summary>
+      <p>Nada de lo que viste está dibujado a mano. El hueco, el degradé,
+      el colapso y la onda salen solos de un mar de cientos de granos que
+      únicamente saben <b>empujarse entre sí</b>; la única regla agregada es
+      que la partícula también los empuja. Cada grano se enciende según su
+      <b>agitación real</b>, medida grano por grano — blanco-hielo si la onda
+      lo tocó, ámbar si quedó en el fuego del colapso — y guarda ese brillo
+      un instante antes de apagarse (como el fósforo), porque el frente pasa
+      más rápido de lo que el ojo alcanza a seguirlo. El contador no es decorativo:
+      <b>mide en vivo</b> el radio del hueco y cuenta cuántos granos faltan
+      en ese círculo. Ese número es la masa — y por eso, cuando el mar
+      cierra el hueco, el contador se vacía exactamente mientras la
+      tensión sale viajando: no hay dos cantidades, hay una sola con dos
+      nombres. En la teoría: la presión del mar es P = ρ₀c², el trabajo de
+      abrir un volumen V es W = P·V, y con m = ρ₀V eso es, letra por
+      letra, E = mc².</p>
+      <p class="enlaces">
+        el libro: <a href="../libro/">El océano y la huella</a><br>
+        la teoría: <a href="../">sitio conceptual</a> ·
+        <a href="https://irigoyennicolas1991.github.io/ift-theory/" target="_blank" rel="noopener">paper técnico</a> ·
+        <a href="https://doi.org/10.5281/zenodo.21177500" target="_blank" rel="noopener">DOI</a>
+      </p>
+    </details>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ============================================================
+   Lo que el mar pagó — motor del libro (cap 8) sobre un TORO:
+   granos con repulsión 1/d² de largo alcance (mínima imagen, sin
+   paredes: el lienzo es una ventana a un mar infinito — con paredes
+   el mar se va a los bordes como cargas en un conductor), damp .98;
+   la partícula es solo otra fuente de empuje. Cavidad, colapso y
+   onda EMERGEN. Calibración Node (900×560, 1 grano/630px²):
+   KT 30→700 da cavidad 29→88px (masa 3→38 granos); aniquilación:
+   colapso vRad −1.4, cierre en ~1.8s, rebote saliente +0.35.
+   ============================================================ */
+const KII=14, MIND2=36, DAMP=.98, NOISE=.02, KTMAX=700, RAMPA_MS=3000;
+const AREA_GRANO=630;          /* px² por grano (densidad del mar) */
+const R0=13;                   /* hueco "natural" del ruido, medido */
+const lienzo=document.getElementById("mar");
+const ctx=lienzo.getContext("2d");
+const esc=document.getElementById("escenario");
+let W=0,H=0,granos=[],vivo=true;
+
+function medir(){
+  const d=Math.min(devicePixelRatio||1,2);
+  W=esc.clientWidth; H=esc.clientHeight;      /* clientHeight, no el atributo */
+  lienzo.width=W*d; lienzo.height=H*d; ctx.setTransform(d,0,0,d,0,0);
+  const objetivo=Math.min(1000,Math.max(250,Math.round(W*H/AREA_GRANO)));
+  if(granos.length===0){
+    /* grilla con jitter: el mar nace casi en equilibrio (sin agitación espuria) */
+    const cols=Math.max(1,Math.round(Math.sqrt(objetivo*W/H)));
+    const filas=Math.ceil(objetivo/cols), sx=W/cols, sy=H/filas;
+    for(let f=0;f<filas&&granos.length<objetivo;f++)
+      for(let c=0;c<cols&&granos.length<objetivo;c++)
+        granos.push({x:(c+.5+(Math.random()-.5)*.5)*sx,
+                     y:(f+.5+(Math.random()-.5)*.5)*sy,vx:0,vy:0,lum:0});
+  }
+  while(granos.length<objetivo) granos.push({x:Math.random()*W,y:Math.random()*H,vx:0,vy:0,lum:0});
+  granos.length=objetivo;
+}
+addEventListener("resize",medir);
+
+/* partículas t: {x,y,k,viva,rMed(EMA del radio de cavidad),naciendo} */
+let particulas=[];
+const MAXP=3;
+
+/* ---------- interacción: sostener = abrir; tocar = cobrar ---------- */
+let sosteniendo=null, demo={activa:false,paso:0,t0:0}, tocado=false;
+function pos(e){const r=lienzo.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+lienzo.addEventListener("pointerdown",e=>{
+  e.preventDefault(); tocado=true; demo.activa=false;
+  const m=pos(e);
+  for(const t of particulas){
+    if(t.viva && Math.hypot(m.x-t.x,m.y-t.y)<Math.max(34,t.rMed)){aniquilar(t);return;}
+  }
+  const vivas=particulas.filter(t=>t.viva).length;
+  if(vivas>=MAXP){decir("El mar aguanta hasta tres huecos. Cobrá alguno: tocalo.");return;}
+  sosteniendo={x:m.x,y:m.y,k:0,viva:true,rMed:R0,t0:performance.now()};
+  particulas.push(sosteniendo);
+  fase("creciendo");
+});
+lienzo.addEventListener("pointermove",e=>{ if(sosteniendo){const m=pos(e);sosteniendo.x=m.x;sosteniendo.y=m.y;} });
+function soltar(){ if(!sosteniendo) return; sosteniendo=null; fase("reposo"); }
+lienzo.addEventListener("pointerup",soltar);
+lienzo.addEventListener("pointercancel",soltar);
+lienzo.addEventListener("pointerleave",soltar);
+
+function aniquilar(t){
+  t.viva=false; t.k=0;
+  fase("cobrando");
+}
+document.getElementById("calma").addEventListener("click",()=>{
+  for(const t of particulas) t.viva=false, t.k=0;
+  sosteniendo=null; tocado=true; demo.activa=false; fase("inicio");
+});
+
+/* ---------- física (idéntica al banco de pruebas) ---------- */
+function paso(){
+  const n=granos.length, hw=W/2, hh=H/2;
+  for(let i=0;i<n;i++){
+    const p=granos[i];
+    for(let j=i+1;j<n;j++){
+      const q=granos[j];
+      let dx=p.x-q.x, dy=p.y-q.y;
+      if(dx>hw)dx-=W; else if(dx<-hw)dx+=W;
+      if(dy>hh)dy-=H; else if(dy<-hh)dy+=H;
+      let d2=dx*dx+dy*dy; if(d2<MIND2) d2=MIND2;
+      const fz=KII/(d2*Math.sqrt(d2));
+      p.vx+=dx*fz; p.vy+=dy*fz; q.vx-=dx*fz; q.vy-=dy*fz;
+    }
+    for(const t of particulas){
+      if(t.k<=0) continue;
+      let dx=p.x-t.x, dy=p.y-t.y;
+      if(dx>hw)dx-=W; else if(dx<-hw)dx+=W;
+      if(dy>hh)dy-=H; else if(dy<-hh)dy+=H;
+      let d2=dx*dx+dy*dy; if(d2<MIND2) d2=MIND2;
+      const fz=t.k/(d2*Math.sqrt(d2));
+      p.vx+=dx*fz; p.vy+=dy*fz;
+    }
+  }
+  for(const p of granos){
+    p.vx+=(Math.random()-.5)*NOISE; p.vy+=(Math.random()-.5)*NOISE;
+    p.vx*=DAMP; p.vy*=DAMP; p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0)p.x+=W; else if(p.x>=W)p.x-=W;
+    if(p.y<0)p.y+=H; else if(p.y>=H)p.y-=H;
+    /* memoria de fósforo: el grano recuerda su agitación real un instante
+       (decae 6% por cuadro) para que el ojo llegue a ver pasar el frente */
+    const vAbs=Math.sqrt(p.vx*p.vx+p.vy*p.vy), rem=p.lum*.94;
+    p.lum=vAbs>rem?vAbs:rem;
+  }
+  /* rampa de fuerza mientras se sostiene */
+  const ahora=performance.now();
+  for(const t of particulas){
+    if(t.viva){
+      if(t===sosteniendo){
+        const u=Math.min(1,(ahora-t.t0)/RAMPA_MS);
+        t.k=KTMAX*Math.pow(u,1.3);
+      }
+    }
+    /* medición REAL: radio de cavidad = grano más cercano (EMA, toro) */
+    let rc=1e9;
+    const hw=W/2, hh=H/2;
+    for(const p of granos){
+      let dx=p.x-t.x, dy=p.y-t.y;
+      if(dx>hw)dx-=W; else if(dx<-hw)dx+=W;
+      if(dy>hh)dy-=H; else if(dy<-hh)dy+=H;
+      const d2=dx*dx+dy*dy;
+      if(d2<rc) rc=d2;
+    }
+    rc=Math.sqrt(rc);
+    t.rMed+=(rc-t.rMed)*.10;
+  }
+  particulas=particulas.filter(t=>t.viva||t.rMed>R0+3);
+}
+function masaDe(t){ return Math.max(0,Math.PI*(t.rMed*t.rMed-R0*R0)/AREA_GRANO); }
+
+/* ---------- dibujo (estilo portada: rects calmos, brasas ágiles) ---------- */
+function dibujar(){
+  ctx.clearRect(0,0,W,H);
+  /* tres estados REALES del grano, por su agitación (con memoria breve):
+     sereno (azul) · tocado por la onda (destello blanco-hielo) · fuego (ámbar) */
+  const fuego=[], onda=[];
+  ctx.fillStyle="rgba(154,200,255,.82)";
+  for(const p of granos){
+    if(p.lum>.45) fuego.push(p);
+    else if(p.lum>.13) onda.push(p);
+    else ctx.fillRect(p.x-1.3,p.y-1.3,2.6,2.6);
+  }
+  ctx.fillStyle="#d6e9ff";
+  for(const p of onda){
+    const t=(p.lum-.13)/.32;
+    ctx.globalAlpha=.4+.5*t;
+    ctx.beginPath(); ctx.arc(p.x,p.y,1.5+.9*t,0,6.2832); ctx.fill();
+  }
+  for(const p of fuego){
+    const g=Math.min(1,(p.lum-.45)/.75);
+    ctx.fillStyle=g>.55?"#ffd894":"#ffb35c";
+    ctx.globalAlpha=.35+.65*g;
+    ctx.beginPath(); ctx.arc(p.x,p.y,1.7+1.9*g,0,6.2832); ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  for(const t of particulas){
+    if(!t.viva) continue;
+    const rg=ctx.createRadialGradient(t.x,t.y,0,t.x,t.y,26);
+    rg.addColorStop(0,"#ffb35c"); rg.addColorStop(1,"rgba(255,179,92,0)");
+    ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(t.x,t.y,26,0,6.2832); ctx.fill();
+    ctx.fillStyle="#ffd894"; ctx.beginPath(); ctx.arc(t.x,t.y,4.4,0,6.2832); ctx.fill();
+  }
+}
+
+/* ---------- el instrumento ---------- */
+const elMedidor=document.getElementById("medidor");
+const elGranos=document.getElementById("granos");
+const elM=document.getElementById("m-eq"), elE=document.getElementById("e-eq");
+let masaMostrada=0;
+function medidor(){
+  let total=0;
+  for(const t of particulas) total+=masaDe(t);
+  masaMostrada+=(total-masaMostrada)*.15;
+  const nRed=Math.round(masaMostrada);
+  elGranos.textContent=nRed; elM.textContent=nRed; elE.textContent=nRed;
+  elMedidor.classList.toggle("visible",masaMostrada>.6||particulas.length>0);
+}
+
+/* ---------- guion: fases y subtítulos ---------- */
+const elSub=document.getElementById("sub");
+let subTimer=null;
+function decir(txt,persistir){
+  clearTimeout(subTimer);
+  elSub.classList.remove("visible");
+  subTimer=setTimeout(()=>{ elSub.innerHTML=txt; elSub.classList.add("visible"); },420);
+}
+const EQ=["eq1","eq2","eq3","eq4","eq5"].map(id=>document.getElementById(id));
+let eqTimers=[];
+function limpiarEq(){ eqTimers.forEach(clearTimeout); eqTimers=[];
+  EQ.forEach(e=>e.classList.remove("visible","apagada")); }
+function fase(cual){
+  if(cual!=="cobrando") limpiarEq();
+  if(cual==="inicio"){
+    decir("Mantené apretado en cualquier parte del mar.");
+  }else if(cual==="creciendo"){
+    decir("Abrir un lugar <b>cuesta</b>. El mar cobra por adelantado: mirá el contador.");
+  }else if(cual==="reposo"){
+    decir("Eso es una partícula: un hueco sostenido. El trabajo que costó abrirlo quedó <b>alrededor</b>, quieto, apretando. Masa en reposo. — Ahora tocala.");
+  }else if(cual==="cobrando"){
+    decir("El mar cierra el hueco y <b>cobra su deuda</b>.");
+    limpiarEq();
+    const t=(f,ms)=>eqTimers.push(setTimeout(f,ms));
+    t(()=>EQ[0].classList.add("visible"),1600);
+    t(()=>EQ[1].classList.add("visible"),3000);
+    t(()=>EQ[2].classList.add("visible"),4400);
+    t(()=>{EQ[3].classList.add("visible");
+           EQ[0].classList.add("apagada");EQ[1].classList.add("apagada");EQ[2].classList.add("apagada");},6000);
+    t(()=>EQ[4].classList.add("visible"),7600);
+    t(()=>{limpiarEq();
+           decir(particulas.some(p=>p.viva)
+             ?"Quedan huecos vivos. Cobralos cuando quieras."
+             :"El mar quedó liso. La deuda, saldada — viajando. Abrí otro hueco cuando quieras.");},13500);
+  }
+}
+
+/* ---------- demo automática (hasta que toques) ---------- */
+function demoPaso(ahora){
+  if(tocado||matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  if(!demo.activa){
+    if(!demo.t0) demo.t0=ahora+4200;                 /* espera inicial */
+    if(ahora<demo.t0) return;
+    demo.activa=true; demo.paso=0; demo.t0=ahora;
+  }
+  const t=ahora-demo.t0;
+  if(demo.paso===0){                                  /* nace el hueco */
+    const p={x:W*.40,y:H*.55,k:0,viva:true,rMed:R0,t0:ahora};
+    particulas.push(p); demo.p=p; demo.paso=1; fase("creciendo");
+  }else if(demo.paso===1){
+    const u=Math.min(1,t/RAMPA_MS);
+    demo.p.k=KTMAX*Math.pow(u,1.3);
+    if(u>=1){demo.paso=2; demo.t0=ahora; fase("reposo");}
+  }else if(demo.paso===2 && t>3600){
+    aniquilar(demo.p); demo.paso=3; demo.t0=ahora;
+  }else if(demo.paso===3 && t>15500){
+    demo.activa=false; demo.t0=ahora+3500; fase("inicio");
+  }
+}
+
+/* ---------- ciclo ---------- */
+function ciclo(ahora){
+  if(vivo){ demoPaso(ahora); paso(); dibujar(); medidor(); }
+  requestAnimationFrame(ciclo);
+}
+new IntersectionObserver(e=>{vivo=e[0].isIntersecting},{threshold:0}).observe(esc);
+document.addEventListener("visibilitychange",()=>{vivo=!document.hidden;});
+medir();
+for(let f=0;f<90;f++) paso();               /* calentar: el primer cuadro ya es un mar sereno */
+fase("inicio"); requestAnimationFrame(ciclo);
+})();
+</script>
+</body>
+</html>
