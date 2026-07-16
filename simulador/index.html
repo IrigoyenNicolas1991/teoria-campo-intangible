@@ -258,7 +258,8 @@ function avanzar(){
       let d=a-prevAng; if(d>Math.PI)d-=2*Math.PI; if(d<-Math.PI)d+=2*Math.PI;
       th+=d; prevAng=a;
       pasoN++;
-      if(pasoN%2===0){ estela.push(pl.x,pl.y); if(estela.length>4800) estela.splice(0,2); }
+      /* estela: ~3/4 de vuelta visible (periodo ~2000 pasos; un punto cada 2 pasos) */
+      if(pasoN%2===0){ estela.push(pl.x,pl.y); if(estela.length>1500) estela.splice(0,2); }
       if(r<30){ etapa='fin'; elEtapa.textContent="el sol se lo comió — otra vez desde el principio…"; break; }
       if(r>MUNDO*0.47){ etapa='fin'; elEtapa.textContent="se escapó mar afuera — otra vez desde el principio…"; break; }
     }
