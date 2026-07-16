@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="profundo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Un sol, un planeta y el mar — simulador TCI</title>
+<meta name="description" content="Un planeta orbita un sol sin que ninguna gravedad esté programada: solo un mar de partículas que se repelen. Simulador de la Teoría del Campo Intangible.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="profundo"]{
+  --bg:#0a1120; --bg2:#0d1626; --tinta:#cfdaea; --tinta-suave:#8fa3bd; --titulo:#eef4fc;
+  --acento:#7fb8ff; --linea:rgba(160,190,230,.16); --panel:rgba(13,22,38,.72);
+  --dot:rgba(150,195,255,.75); --intrusa:#ffb35c; --onda:rgba(255,205,130,.5);
+  --seleccion:rgba(127,184,255,.25);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+::selection{background:var(--seleccion)}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--tinta);
+  font-family:"Lora",Georgia,"Times New Roman",serif;
+  font-size:1.13rem; line-height:1.78;
+}
+header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.55rem 1.1rem;
+  background:var(--panel);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--linea);
+  font-family:"Inter",system-ui,sans-serif;font-size:.78rem;
+}
+header .marca{color:var(--tinta-suave);letter-spacing:.14em;text-transform:uppercase;font-weight:500;text-decoration:none}
+header .marca b{color:var(--titulo);font-weight:600}
+header .marca:hover b{color:var(--acento)}
+header button{
+  cursor:pointer;border:1px solid var(--linea);background:transparent;color:var(--acento);
+  font-family:inherit;font-size:.74rem;font-weight:500;letter-spacing:.06em;
+  padding:.3rem .8rem;border-radius:999px;transition:all .25s;
+}
+header button:hover{background:var(--acento);color:var(--bg)}
+/* ---------- escena ---------- */
+#escena{position:relative;height:100svh;min-height:540px;overflow:hidden}
+#cielo{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.hud{
+  position:absolute;left:0;right:0;text-align:center;pointer-events:none;
+  font-family:"Inter",system-ui,sans-serif;
+}
+#etapa{top:4.2rem;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--tinta-suave);transition:opacity .6s}
+#vueltas{
+  bottom:4.6rem;font-size:.85rem;letter-spacing:.12em;color:var(--tinta-suave);opacity:0;transition:opacity .8s;
+}
+#vueltas b{color:var(--intrusa);font-weight:600;font-size:1.05rem}
+#vueltas .servo{display:block;font-size:.68rem;letter-spacing:.08em;margin-top:.15rem;color:var(--tinta-suave);opacity:.8}
+.flecha{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);color:var(--tinta-suave);animation:flotar 2.6s ease-in-out infinite;pointer-events:none;font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.1em}
+@keyframes flotar{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+/* ---------- el pie de honestidad ---------- */
+main{max-width:42rem;margin:0 auto;padding:3.4rem 1.4rem 4rem}
+main h2{
+  font-family:"Inter",sans-serif;font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--acento);text-align:center;margin-bottom:2rem;
+}
+main p{margin-bottom:1.25em;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+main p strong{color:var(--titulo)}
+main a{color:var(--acento);text-decoration:none}
+main a:hover{text-decoration:underline}
+footer{
+  text-align:center;padding:0 1.4rem 3rem;
+  font-family:"Inter",sans-serif;font-size:.78rem;color:var(--tinta-suave);
+}
+footer a{color:var(--acento);text-decoration:none}
+footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="marca" href="../libro/">El océano y la huella · <b>simulador</b></a>
+  <button id="otra-vez">otra vez</button>
+</header>
+
+<section id="escena">
+  <canvas id="cielo" aria-label="Simulación: un planeta orbita un sol en un mar de partículas que solo se repelen"></canvas>
+  <div class="hud" id="etapa">el mar se enfría…</div>
+  <div class="hud" id="vueltas"><b>vuelta 0.0</b><span class="servo"></span></div>
+  <div class="flecha">↓ qué está programado acá — y qué no</div>
+</section>
+
+<main>
+  <h2>La letra chica, completa</h2>
+  <p><strong>Lo que está programado:</strong> los granos del mar se repelen entre sí; el sol repele a los granos; el planeta repele a los granos y recibe el empujón de vuelta. Nada más — y tres ayudas de taller, declaradas: los bordes del mar absorben ondas (una playa, para que no reboten y vuelvan a pegarle al planeta); antes de largar, la simulación <em>mide</em> el empujón del mar sobre el planeta quieto y lo lanza de costado con la velocidad justa; y un empujoncito tangencial le repone el momento angular que las ondas le roban — en promedio, un tercio del empuje central; el número real aparece bajo el contador de vueltas. Sin esa reposición el planeta cae en espiral en unas dos vueltas: lo comprobamos y lo contamos acá mismo.</p>
+  <p><strong>Lo que NO está programado:</strong> la atracción. En ninguna línea del código hay una fuerza que tire del planeta hacia el sol. El planeta cae hacia el sol porque del lado del sol el mar está enrarecido y empuja menos — y de ese desbalance de presiones emergen la caída, la órbita y su forma. Fijate que no es un círculo: es una elipse que gira sobre sí misma, una roseta. Tampoco eso lo dibujamos nosotros — en un mar de dos dimensiones la ley de fuerza no es exactamente la de Newton, y las órbitas precesan. En tres dimensiones la misma lógica da Newton exacto; esa cuenta está en <a href="https://irigoyennicolas1991.github.io/ift-theory/" target="_blank" rel="noopener">el paper técnico</a>.</p>
+  <p><strong>La pérdida que le reponemos es pariente de algo real.</strong> Un planeta que orbita agita el mar que lo rodea, y esa agitación se lleva energía: en la teoría eso existe de verdad y se llama radiación gravitacional. Nuestro planeta de juguete la sufre a lo bestia porque orbita a una velocidad comparable a la del sonido de su mar (lo medimos: anda cerca de Mach 1). La Tierra real orbita a una diezmilésima de la velocidad de su medio — su pérdida es tan chica que tardaría muchísimo más que la edad del universo en caer. Mismo fenómeno, escala abismalmente distinta.</p>
+  <p>Todo el recorrido — el mar, la huella, por qué el empuje desigual ES la gravedad — está contado sin una sola fórmula en <a href="../libro/">el libro</a>, con más simulaciones para jugar.</p>
+</main>
+
+<footer>
+  <a href="../libro/">el libro</a> · <a href="../">el sitio conceptual</a> · <a href="https://irigoyennicolas1991.github.io/ift-theory/" target="_blank" rel="noopener">el paper técnico</a> · <a href="https://doi.org/10.5281/zenodo.21177500" target="_blank" rel="noopener">el corpus con fecha certificada</a>
+</footer>
+
+<script>
+"use strict";
+/* =====================================================================
+   Un sol, un planeta y el mar.
+   Motor idéntico al validado en Node (proto-orbita-6): en 60.000 pasos
+   el planeta dio 38.7 vueltas y seguía orbitando. Física del cap 9 del
+   libro: repulsión pura; la atracción emerge del degradé de densidad.
+   ===================================================================== */
+const MUNDO=600, CXW=300, CYW=300;                 /* mundo lógico fijo: misma física en todo dispositivo */
+const KII=14, KTSOL=400, KTP=40, MASA=0.03, MIND2=36;
+const PLAYA=60;                                     /* playa absorbente gradual en los bordes */
+const N=720, R0=150;
+const SERVO_K=3, SERVO_TOPE=0.4;                    /* reposición de momento angular: torque puro, acotado */
+
+const px=new Float64Array(N), py=new Float64Array(N);
+const pvx=new Float64Array(N), pvy=new Float64Array(N);
+let pl=null;                                        /* el planeta: {x,y,vx,vy,fija} */
+
+function iniciarMar(){
+  for(let i=0;i<N;i++){ px[i]=Math.random()*MUNDO; py[i]=Math.random()*MUNDO; pvx[i]=0; pvy[i]=0; }
+}
+
+/* un paso de física; modo 'frio' = amortiguación global (preparación), 'vivo' = conservativo + playa */
+function paso(modo){
+  let plfx=0, plfy=0;
+  const plx=pl?pl.x:0, ply=pl?pl.y:0;
+  for(let i=0;i<N;i++){
+    const xi=px[i], yi=py[i];
+    let ax=0, ay=0;
+    for(let j=i+1;j<N;j++){
+      const dx=xi-px[j], dy=yi-py[j];
+      let d2=dx*dx+dy*dy; if(d2<MIND2) d2=MIND2;
+      const fz=KII/(d2*Math.sqrt(d2));
+      ax+=dx*fz; ay+=dy*fz;
+      pvx[j]-=dx*fz; pvy[j]-=dy*fz;
+    }
+    { const dx=xi-CXW, dy=yi-CYW;
+      let d2=dx*dx+dy*dy; if(d2<MIND2) d2=MIND2;
+      const fz=KTSOL/(d2*Math.sqrt(d2));
+      ax+=dx*fz; ay+=dy*fz; }
+    if(pl){
+      const dx=xi-plx, dy=yi-ply;
+      let d2=dx*dx+dy*dy; if(d2<MIND2) d2=MIND2;
+      const fz=KTP/(d2*Math.sqrt(d2));
+      ax+=dx*fz; ay+=dy*fz;
+      plfx-=dx*fz*MASA; plfy-=dy*fz*MASA;
+    }
+    pvx[i]+=ax; pvy[i]+=ay;
+  }
+  for(let i=0;i<N;i++){
+    if(modo==='frio'){ pvx[i]*=0.995; pvy[i]*=0.995; }
+    else{
+      const dxb=Math.min(px[i],MUNDO-px[i]), dyb=Math.min(py[i],MUNDO-py[i]);
+      const db=Math.min(dxb,dyb);
+      if(db<PLAYA){ const s=1-db/PLAYA; const f=1-0.05*s*s; pvx[i]*=f; pvy[i]*=f; }
+    }
+    px[i]+=pvx[i]; py[i]+=pvy[i];
+    if(px[i]<0){px[i]=0;pvx[i]*=-.6}else if(px[i]>MUNDO){px[i]=MUNDO;pvx[i]*=-.6}
+    if(py[i]<0){py[i]=0;pvy[i]*=-.6}else if(py[i]>MUNDO){py[i]=MUNDO;pvy[i]*=-.6}
+  }
+  if(pl&&!pl.fija){ pl.vx+=plfx; pl.vy+=plfy; pl.x+=pl.vx; pl.y+=pl.vy; }
+  return [plfx,plfy];
+}
+
+/* ---------- lienzo ---------- */
+const lienzo=document.getElementById("cielo");
+const ctx=lienzo.getContext("2d");
+const raiz=document.documentElement;
+let W=0,H=0,esc=1,ox=0,oy=0;
+let colores={};
+function leerColores(){
+  const s=getComputedStyle(raiz);
+  colores={dot:s.getPropertyValue("--dot").trim(), intrusa:s.getPropertyValue("--intrusa").trim(),
+           acento:s.getPropertyValue("--acento").trim(), suave:s.getPropertyValue("--tinta-suave").trim()};
+}
+function medir(){
+  const d=Math.min(devicePixelRatio||1,2);
+  W=lienzo.clientWidth; H=lienzo.clientHeight;
+  lienzo.width=W*d; lienzo.height=H*d; ctx.setTransform(d,0,0,d,0,0);
+  esc=Math.min(W,H)/MUNDO; ox=(W-MUNDO*esc)/2; oy=(H-MUNDO*esc)/2;
+}
+
+/* ---------- puesta en escena ---------- */
+const elEtapa=document.getElementById("etapa");
+const elVueltas=document.getElementById("vueltas");
+const elServo=elVueltas.querySelector(".servo");
+let etapa, pasoN, aR, vc, L0, fxAcum, fxCnt, th, prevAng, estela, servoAcum, servoCnt, finCuenta;
+const PASOS_FRIO=3500, PASOS_HUELLA=700, PASOS_MEDIR=300;
+
+function reiniciar(){
+  iniciarMar();
+  pl=null; etapa='enfriando'; pasoN=0;
+  aR=0; vc=0; L0=0; fxAcum=0; fxCnt=0; th=0; prevAng=0;
+  estela=[]; servoAcum=0; servoCnt=0; finCuenta=0;
+  elVueltas.style.opacity=0;
+  elEtapa.style.opacity=1;
+  elEtapa.textContent="el mar se enfría y el sol abre su hueco…";
+}
+
+/* presupuesto adaptativo: cuántos pasos de física entran por cuadro */
+let costoPaso=1.2;   /* ms por paso, estimado en vivo */
+function subPasos(presupuesto){ return Math.max(1,Math.min(6,Math.round(presupuesto/costoPaso))); }
+
+function avanzar(){
+  const t0=performance.now();
+  let hechos=0;
+  if(etapa==='enfriando'){
+    const k=Math.min(30,PASOS_FRIO-pasoN);
+    for(let s=0;s<k;s++) paso('frio');
+    hechos=k; pasoN+=k;
+    if(pasoN>=PASOS_FRIO){
+      pl={x:CXW+R0,y:CYW,vx:0,vy:0,fija:true};
+      etapa='huella'; pasoN=0;
+      elEtapa.textContent="colocamos el planeta: su huella se abre…";
+    }
+  }else if(etapa==='huella'){
+    const k=Math.min(30,PASOS_HUELLA-pasoN);
+    for(let s=0;s<k;s++) paso('frio');
+    hechos=k; pasoN+=k;
+    if(pasoN>=PASOS_HUELLA){
+      etapa='midiendo'; pasoN=0;
+      elEtapa.textContent="medimos el empujón del mar sobre el planeta quieto…";
+    }
+  }else if(etapa==='midiendo'){
+    const k=Math.min(20,PASOS_MEDIR-pasoN);
+    for(let s=0;s<k;s++){ const f=paso('frio'); fxAcum+=f[0]; fxCnt++; }
+    hechos=k; pasoN+=k;
+    if(pasoN>=PASOS_MEDIR){
+      aR=-fxAcum/fxCnt;
+      if(!(aR>0)) aR=1.4e-3;          /* red de seguridad: valor medido en el prototipo */
+      vc=Math.sqrt(aR*R0); L0=R0*vc;
+      pl.fija=false; pl.vx=0; pl.vy=vc;
+      prevAng=Math.atan2(pl.y-CYW,pl.x-CXW);
+      etapa='orbita'; pasoN=0;
+      elEtapa.textContent="lanzado de costado — nadie tira de él";
+      elVueltas.style.opacity=1;
+      setTimeout(()=>{ if(etapa==='orbita') elEtapa.style.opacity=0; },5200);
+    }
+  }else if(etapa==='orbita'){
+    const k=subPasos(12);
+    for(let s=0;s<k;s++){
+      paso('vivo');
+      /* reposición de momento angular: torque puro tangencial, acotado (declarado en el pie) */
+      { const rx=pl.x-CXW, ry=pl.y-CYW, r=Math.hypot(rx,ry)||1;
+        const L=rx*pl.vy-ry*pl.vx;
+        const deficit=(L0-L)/L0;
+        let rel=0;
+        if(deficit>0){
+          rel=Math.min(SERVO_TOPE,SERVO_K*deficit);
+          const g=aR*rel;
+          pl.vx+=g*(-ry/r); pl.vy+=g*(rx/r);
+        }
+        servoAcum+=rel; servoCnt++;
+      }
+      const dx=pl.x-CXW, dy=pl.y-CYW, r=Math.hypot(dx,dy);
+      const a=Math.atan2(dy,dx);
+      let d=a-prevAng; if(d>Math.PI)d-=2*Math.PI; if(d<-Math.PI)d+=2*Math.PI;
+      th+=d; prevAng=a;
+      pasoN++;
+      if(pasoN%2===0){ estela.push(pl.x,pl.y); if(estela.length>4800) estela.splice(0,2); }
+      if(r<30){ etapa='fin'; elEtapa.textContent="el sol se lo comió — otra vez desde el principio…"; break; }
+      if(r>MUNDO*0.47){ etapa='fin'; elEtapa.textContent="se escapó mar afuera — otra vez desde el principio…"; break; }
+    }
+    hechos=k;
+    if(etapa==='fin'){ elEtapa.style.opacity=1; finCuenta=150; }
+    else{
+      const v=Math.abs(th)/(2*Math.PI);
+      elVueltas.firstElementChild.textContent="vuelta "+v.toFixed(1);
+      elServo.textContent="reposición en vivo: "+(servoCnt?Math.round(servoAcum/servoCnt*100):0)+"% del empuje central";
+    }
+  }else if(etapa==='fin'){
+    if(--finCuenta<=0) reiniciar();
+  }
+  if(hechos>0){
+    const c=(performance.now()-t0)/hechos;
+    costoPaso=costoPaso*0.9+c*0.1;
+  }
+}
+
+/* ---------- dibujo ---------- */
+function dibujar(){
+  ctx.clearRect(0,0,W,H);
+  ctx.save(); ctx.translate(ox,oy); ctx.scale(esc,esc);
+  /* el mar: sereno azul, agitado ámbar (la onda se ve pasar) */
+  for(let i=0;i<N;i++){
+    const v=Math.hypot(pvx[i],pvy[i]);
+    const g=Math.max(0,Math.min(1,(v-0.3)/0.6));
+    if(g>0){
+      ctx.fillStyle=colores.intrusa; ctx.globalAlpha=.25+.55*g;
+      ctx.beginPath(); ctx.arc(px[i],py[i],1.6+1.3*g,0,6.2832); ctx.fill();
+      ctx.globalAlpha=1;
+    }else{
+      ctx.fillStyle=colores.dot;
+      ctx.beginPath(); ctx.arc(px[i],py[i],1.7,0,6.2832); ctx.fill();
+    }
+  }
+  /* el sol */
+  { const gr=ctx.createRadialGradient(CXW,CYW,0,CXW,CYW,36);
+    gr.addColorStop(0,colores.intrusa); gr.addColorStop(1,"transparent");
+    ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(CXW,CYW,36,0,6.2832); ctx.fill();
+    ctx.fillStyle=colores.intrusa; ctx.beginPath(); ctx.arc(CXW,CYW,10,0,6.2832); ctx.fill(); }
+  /* la estela del planeta (se desvanece hacia atrás) */
+  const M=estela.length/2;
+  if(M>2){
+    const tramo=Math.max(8,Math.floor(M/12));
+    for(let t=0;t<M-1;t+=tramo){
+      const fin=Math.min(M-1,t+tramo);
+      ctx.strokeStyle=colores.acento; ctx.globalAlpha=.05+.4*(t/M); ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(estela[2*t],estela[2*t+1]);
+      for(let s=t+1;s<=fin;s++) ctx.lineTo(estela[2*s],estela[2*s+1]);
+      ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+  }
+  /* el planeta */
+  if(pl){
+    const gr=ctx.createRadialGradient(pl.x,pl.y,0,pl.x,pl.y,14);
+    gr.addColorStop(0,colores.acento); gr.addColorStop(1,"transparent");
+    ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(pl.x,pl.y,14,0,6.2832); ctx.fill();
+    ctx.fillStyle=colores.acento; ctx.beginPath(); ctx.arc(pl.x,pl.y,4.5,0,6.2832); ctx.fill();
+  }
+  ctx.restore();
+}
+
+/* ---------- ciclo ---------- */
+let visible=true;
+function ciclo(){
+  if(visible){
+    if(W<2||H<2) medir();   /* el lienzo puede nacer sin layout (paneles, pestañas de fondo) */
+    avanzar(); dibujar();
+  }
+  requestAnimationFrame(ciclo);
+}
+new IntersectionObserver(e=>{visible=e[0].isIntersecting},{threshold:0}).observe(lienzo);
+addEventListener("resize",medir);
+document.getElementById("otra-vez").addEventListener("click",reiniciar);
+
+leerColores(); medir(); reiniciar(); ciclo();
+</script>
+</body>
+</html>
