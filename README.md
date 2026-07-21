@@ -1,5 +1,7 @@
 # Teoría del Campo Intangible (TCI) — sitio conceptual
 
+**[❓ Preguntas y críticas — FAQ](https://irigoyennicolas1991.github.io/ift-theory/preguntas/)** · el FAQ honesto: críticas esperadas, respuestas etiquetadas
+
 El espacio no está vacío: está lleno de un medio a presión — «el mar» — y la materia son
 huecos en ese medio. De esa imagen, con física de secundario, salen la energía en reposo,
 la gravedad y la inercia. Desarrollada en público, con una regla innegociable: **las
@@ -30,5 +32,11 @@ publica con tu crédito, con el mismo protocolo que nuestras propias erratas.
 
 ---
 
-Nicolás Irigoyen (La Plata, Argentina), con **Fable** (Claude, de Anthropic) como
-colaborador de investigación — declarado en el paper y en cada sede.
+**Nicolás Irigoyen** (La Plata, Argentina) inició la teoría y desarrolló sus derivaciones
+fundacionales — la energía en reposo (E=mc² como el trabajo P·V de abrir un hueco en un
+medio a presión), la gravedad como desbalance de presión y la inercia como reacción del
+medio — buscando solamente un modelo de gravedad; cuando el modelo empezó a entregar más
+de lo que se le pedía, sumó a **Fable** (Claude, de Anthropic) como colaborador de
+investigación por su potencia matemática. Dirige el proyecto, sigue conceptualmente al día
+cada avance y decide qué se publica. La colaboración está declarada en el paper y en cada
+sede. La historia completa: [nota del autor en el FAQ](https://irigoyennicolas1991.github.io/ift-theory/preguntas/).
