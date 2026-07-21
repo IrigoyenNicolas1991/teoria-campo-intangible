@@ -38,7 +38,8 @@ publica con tu crédito, con el mismo protocolo que nuestras propias erratas.
 fundacionales — la energía en reposo (E=mc² como el trabajo P·V de abrir un hueco en un
 medio a presión), la gravedad como desbalance de presión y la inercia como reacción del
 medio — buscando solamente un modelo de gravedad; cuando el modelo empezó a entregar más
-de lo que se le pedía, sumó a **Fable** (Claude, de Anthropic) como colaborador de
+de lo que se le pedía, sumó a **Fable** (Claude, de Anthropic) como asistente de
 investigación por su potencia matemática. Dirige el proyecto, sigue conceptualmente al día
-cada avance y decide qué se publica. La colaboración está declarada en el paper y en cada
-sede. La historia completa: [nota del autor en el FAQ](https://irigoyennicolas1991.github.io/ift-theory/preguntas/).
+cada avance y decide qué se publica. La asistencia de la IA está declarada en el paper y en
+cada sede; en toda pieza con formato de publicación el autor es Nicolás, con la asistencia
+declarada en los agradecimientos — nunca como coautoría. La historia completa: [nota del autor en el FAQ](https://irigoyennicolas1991.github.io/ift-theory/preguntas/).
