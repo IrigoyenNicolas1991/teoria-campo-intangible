@@ -30,6 +30,8 @@ etiqueta: *respondida con cálculo*, *parcial — deuda declarada*, o *la críti
 ¿Encontraste un error? [Abrí un issue](../../issues): una falsación externa confirmada se
 publica con tu crédito, con el mismo protocolo que nuestras propias erratas.
 
+**Contacto:** [nicolasirigoyen@teoriadelcampointangible.org](mailto:nicolasirigoyen@teoriadelcampointangible.org)
+
 ---
 
 **Nicolás Irigoyen** (La Plata, Argentina) inició la teoría y desarrolló sus derivaciones
