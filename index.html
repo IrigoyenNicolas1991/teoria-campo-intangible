@@ -63,6 +63,24 @@
             min-height: 100vh;
         }
 
+        /* fondo vivo: gradientes a la deriva (estrenado en la vidriera) */
+        .fondo-vivo{position:fixed;inset:0;z-index:-1;overflow:hidden;background:var(--bg-primary);}
+        .fondo-vivo::before,.fondo-vivo::after{content:"";position:absolute;width:95vmax;height:95vmax;
+            border-radius:50%;pointer-events:none;}
+        .fondo-vivo::before{left:-30vmax;top:-35vmax;
+            background:radial-gradient(closest-side,rgba(100,160,255,.07) 0%,transparent 64%);
+            animation:fvdrift1 75s ease-in-out infinite alternate;}
+        .fondo-vivo::after{right:-38vmax;bottom:-38vmax;
+            background:radial-gradient(closest-side,rgba(140,110,255,.06) 0%,transparent 64%);
+            animation:fvdrift2 100s ease-in-out infinite alternate;}
+        @keyframes fvdrift1{0%{transform:translate3d(0,0,0) scale(1)}
+            50%{transform:translate3d(18vmax,11vmax,0) scale(1.16)}
+            100%{transform:translate3d(5vmax,24vmax,0) scale(.93)}}
+        @keyframes fvdrift2{0%{transform:translate3d(0,0,0) scale(1.05)}
+            100%{transform:translate3d(-26vmax,7vmax,0) scale(1.14)}}
+        @media (prefers-reduced-motion:reduce){
+            .fondo-vivo::before,.fondo-vivo::after{animation:none;}}
+
         /* === LAYOUT === */
         .container {
             max-width: 800px;
@@ -510,6 +528,7 @@
     </style>
 </head>
 <body>
+    <div class="fondo-vivo" aria-hidden="true"></div>
     <!-- Progress Bar -->
     <div class="progress-bar">
         <div class="progress-bar-fill" id="progressBar"></div>
@@ -542,6 +561,11 @@
             <p style="margin-top: .7rem;">
                 <a href="https://irigoyennicolas1991.github.io/ift-theory/preguntas/" style="display: inline-block; padding: .55rem 1.3rem; border: 1.5px solid currentColor; border-radius: 999px; text-decoration: none; color: inherit; font-size: .95rem;">
                     ❓ <strong>Preguntas y críticas</strong>: lo que le objetaría un físico, con las respuestas que tenemos (y las que no)
+                </a>
+            </p>
+            <p style="margin-top: .7rem;">
+                <a href="https://irigoyennicolas1991.github.io/ift-theory/vidriera/" style="display: inline-block; padding: .55rem 1.3rem; border: 1.5px solid currentColor; border-radius: 999px; text-decoration: none; color: inherit; font-size: .95rem;">
+                    🏆 Nuevo — <strong>la vidriera</strong>: todos los hitos de la teoría en una página viva, cada uno con su documento
                 </a>
             </p>
         </header>

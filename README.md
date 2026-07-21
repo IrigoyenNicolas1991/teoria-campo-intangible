@@ -1,6 +1,7 @@
 # Teoría del Campo Intangible (TCI) — sitio conceptual
 
 **[❓ Preguntas y críticas — FAQ](https://irigoyennicolas1991.github.io/ift-theory/preguntas/)** · el FAQ honesto: críticas esperadas, respuestas etiquetadas
+**[🏆 La vidriera — hitos](https://irigoyennicolas1991.github.io/ift-theory/vidriera/)** · todos los hitos en una página viva, cada uno con su documento
 
 El espacio no está vacío: está lleno de un medio a presión — «el mar» — y la materia son
 huecos en ese medio. De esa imagen, con física de secundario, salen la energía en reposo,
@@ -23,6 +24,7 @@ etiqueta: *respondida con cálculo*, *parcial — deuda declarada*, o *la críti
 | [🪐 El simulador](https://irigoyennicolas1991.github.io/teoria-campo-intangible/simulador/) | Un planeta orbita un sol sin gravedad programada |
 | [⚡ «Lo que el mar pagó»](https://irigoyennicolas1991.github.io/teoria-campo-intangible/energia/) | E=mc² en vivo: abrí un hueco, medilo, aniquilalo |
 | [❓ Preguntas y críticas](https://irigoyennicolas1991.github.io/ift-theory/preguntas/) | El FAQ honesto: objeciones esperadas y respuestas etiquetadas |
+| [🏆 La vidriera](https://irigoyennicolas1991.github.io/ift-theory/vidriera/) | Todos los hitos en una página viva, cada uno con su documento |
 | [📄 Paper técnico (inglés)](https://irigoyennicolas1991.github.io/ift-theory/) | La formulación de campos completa, con los sectores falsados declarados al frente |
 | [🗒️ Notas de trabajo](https://github.com/IrigoyenNicolas1991/ift-theory/tree/desarrollo-fable/notas) | Derivaciones, calibraciones y falsaciones, con scripts de verificación |
 | [🏛️ Zenodo](https://doi.org/10.5281/zenodo.21177500) | El corpus archivado con fecha certificada (DOI) |
